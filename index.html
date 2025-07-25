@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mizo Streaming</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background-color: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #f0f;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+      transform: scale(1.05);
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #222;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      padding: 8px 12px;
+      color: #fff;
+      outline: none;
+      width: 200px;
+    }
+
+    .search-bar button {
+      background: #f0f;
+      padding: 8px 12px;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .search-bar button:hover {
+      box-shadow: 0 0 10px #f0f;
+    }
+
+    .nav-tabs {
+      display: flex;
+      background-color: #1a1a1a;
+      padding: 10px 20px;
+      position: relative;
+    }
+
+    .nav-tabs a {
+      margin-right: 20px;
+      color: #fff;
+      font-size: 14px;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tabs a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background: #f0f;
+      transition: width 0.3s ease;
+    }
+
+    .nav-tabs a:hover::after,
+    .nav-tabs a.active::after {
+      width: 100%;
+    }
+
+    .nav-tabs a.active {
+      color: #f0f;
+    }
+
+    .video-section {
+      padding: 20px;
+    }
+
+    .video-section h2 {
+      font-size: 18px;
+      font-weight: bold;
+      border-left: 4px solid #f0f;
+      padding-left: 10px;
+      margin-bottom: 16px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .video-card {
+      background-color: #1a1a1a;
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .video-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+    }
+
+    .video-thumb {
+      position: relative;
+    }
+
+    .video-thumb img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .video-meta-overlay {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2px 6px;
+      font-size: 12px;
+      border-radius: 3px;
+    }
+
+    .video-info {
+      padding: 10px;
+    }
+
+    .video-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 6px;
+      height: 36px;
+      overflow: hidden;
+    }
+
+    .video-stats {
+      font-size: 11px;
+      color: #bbb;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .video-stats span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">MIZO STREAMING</div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." />
+      <button><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="nav-tabs">
+    <a href="#" class="active">Home</a>
+    <a href="#">Categories</a>
+    <a href="#">Popular Videos</a>
+  </div>
+
+  <!-- Video Grid -->
+  <div class="video-section">
+    <h2>Latest Videos</h2>
+    <div class="video-grid">
+
+      <!-- Video Card 1 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1010/400/225" alt="thumb">
+          <div class="video-meta-overlay">13:24</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 1</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 2.3K</span>
+            <span><i class="fas fa-thumbs-up"></i> 96%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 2 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1002/400/225" alt="thumb">
+          <div class="video-meta-overlay">8:17</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 2</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 1.8K</span>
+            <span><i class="fas fa-thumbs-up"></i> 94%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 3 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1003/400/225" alt="thumb">
+          <div class="video-meta-overlay">15:33</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 3</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 3.1K</span>
+            <span><i class="fas fa-thumbs-up"></i> 98%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 4 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1004/400/225" alt="thumb">
+          <div class="video-meta-overlay">22:45</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 4</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 5.2K</span>
+            <span><i class="fas fa-thumbs-up"></i> 92%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 5 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1005/400/225" alt="thumb">
+          <div class="video-meta-overlay">11:28</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 5</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 4.7K</span>
+            <span><i class="fas fa-thumbs-up"></i> 89%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 6 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1006/400/225" alt="thumb">
+          <div class="video-meta-overlay">19:15</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 6</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 6.8K</span>
+            <span><i class="fas fa-thumbs-up"></i> 95%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 7 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1007/400/225" alt="thumb">
+          <div class="video-meta-overlay">7:42</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 7</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 2.9K</span>
+            <span><i class="fas fa-thumbs-up"></i> 91%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 8 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1008/400/225" alt="thumb">
+          <div class="video-meta-overlay">16:09</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 8</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 3.5K</span>
+            <span><i class="fas fa-thumbs-up"></i> 87%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 9 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1009/400/225" alt="thumb">
+          <div class="video-meta-overlay">12:54</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 9</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 7.1K</span>
+            <span><i class="fas fa-thumbs-up"></i> 93%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 10 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1011/400/225" alt="thumb">
+          <div class="video-meta-overlay">25:18</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 10</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 8.9K</span>
+            <span><i class="fas fa-thumbs-up"></i> 97%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 11 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1012/400/225" alt="thumb">
+          <div class="video-meta-overlay">9:36</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 11</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 4.2K</span>
+            <span><i class="fas fa-thumbs-up"></i> 90%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 12 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1013/400/225" alt="thumb">
+          <div class="video-meta-overlay">18:27</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 12</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 5.8K</span>
+            <span><i class="fas fa-thumbs-up"></i> 88%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 13 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1014/400/225" alt="thumb">
+          <div class="video-meta-overlay">14:13</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 13</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 6.3K</span>
+            <span><i class="fas fa-thumbs-up"></i> 85%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 14 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1015/400/225" alt="thumb">
+          <div class="video-meta-overlay">20:51</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 14</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 9.7K</span>
+            <span><i class="fas fa-thumbs-up"></i> 96%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 15 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1016/400/225" alt="thumb">
+          <div class="video-meta-overlay">6:48</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 15</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 7.5K</span>
+            <span><i class="fas fa-thumbs-up"></i> 92%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 16 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1018/400/225" alt="thumb">
+          <div class="video-meta-overlay">17:39</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 16</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 4.9K</span>
+            <span><i class="fas fa-thumbs-up"></i> 89%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 17 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1019/400/225" alt="thumb">
+          <div class="video-meta-overlay">23:14</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 17</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 11.2K</span>
+            <span><i class="fas fa-thumbs-up"></i> 94%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 18 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1020/400/225" alt="thumb">
+          <div class="video-meta-overlay">10:22</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 18</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 8.1K</span>
+            <span><i class="fas fa-thumbs-up"></i> 91%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 19 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1021/400/225" alt="thumb">
+          <div class="video-meta-overlay">15:07</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 19</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 6.7K</span>
+            <span><i class="fas fa-thumbs-up"></i> 88%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 20 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1022/400/225" alt="thumb">
+          <div class="video-meta-overlay">21:45</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 20</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 12.8K</span>
+            <span><i class="fas fa-thumbs-up"></i> 95%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 21 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1023/400/225" alt="thumb">
+          <div class="video-meta-overlay">8:55</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 21</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 9.4K</span>
+            <span><i class="fas fa-thumbs-up"></i> 87%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 22 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1024/400/225" alt="thumb">
+          <div class="video-meta-overlay">19:32</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 22</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 15.6K</span>
+            <span><i class="fas fa-thumbs-up"></i> 93%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 23 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1025/400/225" alt="thumb">
+          <div class="video-meta-overlay">13:18</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 23</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 7.9K</span>
+            <span><i class="fas fa-thumbs-up"></i> 90%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 24 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1026/400/225" alt="thumb">
+          <div class="video-meta-overlay">26:41</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 24</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 10.3K</span>
+            <span><i class="fas fa-thumbs-up"></i> 86%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 25 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1027/400/225" alt="thumb">
+          <div class="video-meta-overlay">11:57</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 25</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 5.4K</span>
+            <span><i class="fas fa-thumbs-up"></i> 84%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 26 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1028/400/225" alt="thumb">
+          <div class="video-meta-overlay">16:29</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 26</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 13.7K</span>
+            <span><i class="fas fa-thumbs-up"></i> 92%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 27 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1029/400/225" alt="thumb">
+          <div class="video-meta-overlay">9:14</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 27</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 8.6K</span>
+            <span><i class="fas fa-thumbs-up"></i> 89%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 28 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1030/400/225" alt="thumb">
+          <div class="video-meta-overlay">24:33</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 28</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 14.2K</span>
+            <span><i class="fas fa-thumbs-up"></i> 96%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 29 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1031/400/225" alt="thumb">
+          <div class="video-meta-overlay">12:08</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 29</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 6.9K</span>
+            <span><i class="fas fa-thumbs-up"></i> 91%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 30 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1032/400/225" alt="thumb">
+          <div class="video-meta-overlay">18:46</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 30</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 11.8K</span>
+            <span><i class="fas fa-thumbs-up"></i> 94%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 31 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1033/400/225" alt="thumb">
+          <div class="video-meta-overlay">7:23</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 31</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 16.4K</span>
+            <span><i class="fas fa-thumbs-up"></i> 97%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Card 32 -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1034/400/225" alt="thumb">
+          <div class="video-meta-overlay">22:15</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Video 32</div>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 9.1K</span>
+            <span><i class="fas fa-thumbs-up"></i> 88%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
