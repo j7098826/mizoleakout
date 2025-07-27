@@ -1,1 +1,56 @@
+{
+  "playlists": [
+    {
+      "name": "Music",
+      "videos": [
+        {
+          "id": "dQw4w9WgXcQ",
+          "title": "Never Gonna Give You Up",
+          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
+          "duration": "3:33",
+          "views": "1.2B",
+          "uploadDate": "2009-10-25",
+          "category": "Music"
+        },
+        {
+          "url": "https://your-worker-domain.com/proxy/videos/music1.mp4",
+          "title": "Chill Beats Mix",
+          "thumbnail": "https://example.com/thumbnails/chillbeats.jpg",
+          "duration": "1:00:00",
+          "views": "540K",
+          "uploadDate": "2024-01-15",
+          "category": "Music"
+        }
+      ]
+    },
+    {
+      "name": "Gaming",
+      "videos": [
+        {
+          "id": "5NV6Rdv1a3I",
+          "title": "Epic Gameplay Highlights",
+          "thumbnail": "https://img.youtube.com/vi/5NV6Rdv1a3I/mqdefault.jpg",
+          "duration": "10:12",
+          "views": "750K",
+          "uploadDate": "2023-12-20",
+          "category": "Gaming"
+        }
+      ]
+    },
+    {
+      "name": "Tutorials",
+      "videos": [
+        {
+          "url": "https://your-worker-domain.com/proxy/videos/tutorial1.mp4",
+          "title": "Learn JavaScript Basics",
+          "thumbnail": "https://example.com/thumbnails/js-basics.jpg",
+          "duration": "15:45",
+          "views": "1.1M",
+          "uploadDate": "2023-05-10",
+          "category": "Tutorials"
+        }
+      ]
+    }
+  ]
+}
 
