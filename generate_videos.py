@@ -11,7 +11,7 @@ def generate_random_id(length=11):
     return ''.join(random.choices(chars, k=length))
 
 def generate_random_views():
-    """Generate random views between 30k-500k"""
+    """Generate random views between 30k-500k in 'k' format"""
     views = random.randint(30, 500)
     return f"{views}k"
 
