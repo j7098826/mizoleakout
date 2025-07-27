@@ -39,7 +39,7 @@
       <img src="logo.jpg" alt="Mizo Leakout Logo" class="h-14">
     </a>
     <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
-      <input type="text" id="searchInput" placeholder="Search..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
+      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
       <button onclick="searchVideos()" class="bg-pink-600 px-4 text-white"><i class="fas fa-search"></i></button>
     </div>
   </div>
@@ -55,7 +55,7 @@
   <div class="video-section px-6 py-4">
     <h2 class="text-lg font-bold border-l-4 border-pink-500 pl-3 mb-4">Latest YouTube Videos</h2>
     <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid">
-      <!-- Video cards will be inserted here -->
+      <!-- Video cards will be inserted here by JavaScript -->
     </div>
   </div>
 
@@ -138,14 +138,22 @@
       modal.classList.add("hidden");
     }
 
+    // 🔍 Search by caption (live as you type)
     function searchVideos() {
       const input = document.getElementById("searchInput").value.toLowerCase();
       const cards = document.querySelectorAll("#videoGrid .video-card");
+
       cards.forEach(card => {
         const title = card.querySelector(".video-title").textContent.toLowerCase();
-        card.style.display = title.includes(input) ? "block" : "none";
+        card.classList.toggle("hidden", !title.includes(input));
       });
     }
+
+    // 🔁 Trigger search on typing
+    document.getElementById("searchInput").addEventListener("input", searchVideos);
+    document.getElementById("searchInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") searchVideos();
+    });
   </script>
 
 </body>
