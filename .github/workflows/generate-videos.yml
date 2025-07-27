@@ -1,0 +1,40 @@
+# .github/workflows/generate-videos.yml
+name: Generate Video Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      videos_per_category:
+        description: 'Number of videos per category'
+        required: true
+        default: '200'
+        type: string
+  schedule:
+    # Run weekly to update the database
+    - cron: '0 0 * * 0'
+
+jobs:
+  generate-videos:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Generate video database
+      env:
+        VIDEOS_PER_CATEGORY: ${{ github.event.inputs.videos_per_category || '200' }}
+      run: python generate_videos.py
+      
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add streaming_data.json
+        git commit -m "🎬 Update video database with ${{ env.VIDEOS_PER_CATEGORY }} videos per category" || exit 0
+        git push
