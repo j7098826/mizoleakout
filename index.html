@@ -4,16 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mizo Leakout</title>
-
-  <!-- Favicon -->
   <link rel="icon" type="image/webp" href="logo.webp" />
-
-  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
     body {
       background-color: #111;
@@ -33,132 +26,131 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <div class="navbar flex justify-between items-center bg-black px-6 py-4">
-    <a href="#" class="logo">
-      <img src="logo.jpg" alt="Mizo Leakout Logo" class="h-14">
-    </a>
-    <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
-      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
-      <button onclick="searchVideos()" class="bg-pink-600 px-4 text-white"><i class="fas fa-search"></i></button>
+<!-- Navbar -->
+<div class="navbar flex justify-between items-center bg-black px-6 py-4">
+  <a href="#" class="logo">
+    <img src="logo.jpg" alt="Mizo Leakout Logo" class="h-14">
+  </a>
+  <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
+    <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
+    <button onclick="searchVideos()" class="bg-pink-600 px-4 text-white"><i class="fas fa-search"></i></button>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="nav-tabs flex bg-gray-900 px-6 py-3 space-x-6">
+  <a href="#" class="text-pink-500 font-semibold">Home</a>
+  <a href="#" class="text-white hover:text-pink-400">Categories</a>
+  <a href="#" class="text-white hover:text-pink-400">Popular Videos</a>
+</div>
+
+<!-- Video Grid -->
+<div class="video-section px-6 py-4">
+  <h2 class="text-lg font-bold border-l-4 border-pink-500 pl-3 mb-4">Latest YouTube Videos</h2>
+  <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid"></div>
+</div>
+
+<!-- Video Modal -->
+<div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+  <div class="relative w-[95%] max-w-6xl">
+    <button onclick="closeModal()" class="absolute top-2 right-3 text-white text-3xl font-bold z-50">×</button>
+    <div class="w-full h-[80vh]">
+      <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay"></iframe>
     </div>
   </div>
+</div>
 
-  <!-- Navigation Tabs -->
-  <div class="nav-tabs flex bg-gray-900 px-6 py-3 space-x-6">
-    <a href="#" class="text-pink-500 font-semibold">Home</a>
-    <a href="#" class="text-white hover:text-pink-400">Categories</a>
-    <a href="#" class="text-white hover:text-pink-400">Popular Videos</a>
-  </div>
+<!-- Scripts -->
+<script>
+const videos = [
+  { id: "dQw4w9WgXcQ", title: "Never Gonna Give You Up" },
+  { id: "oHg5SJYRHA0", title: "Classic Rick Roll" },
+  { id: "9bZkp7q19f0", title: "Gangnam Style" },
+  { id: "60ItHLz5WEA", title: "Alan Walker - Faded" },
+  { id: "kXYiU_JCYtU", title: "Numb - Linkin Park" },
+  { id: "RgKAFK5djSk", title: "Wiz Khalifa - See You Again" },
+  { id: "L_jWHffIx5E", title: "Coolio - Gangsta's Paradise" },
+  { id: "eVTXPUF4Oz4", title: "In The End - Linkin Park" },
+  { id: "JGwWNGJdvx8", title: "Ed Sheeran - Shape of You" },
+  { id: "CevxZvSJLk8", title: "Katy Perry - Roar" },
+  { id: "3tmd-ClpJxA", title: "Marshmello - Alone" },
+  { id: "hT_nvWreIhg", title: "Imagine Dragons - Demons" },
+  { id: "VbfpW0pbvaU", title: "David Guetta - Titanium" },
+  { id: "ktvTqknDobU", title: "Radioactive - Imagine Dragons" },
+  { id: "pRpeEdMmmQ0", title: "Shakira - Waka Waka" },
+  { id: "lp-EO5I60KA", title: "Drake - Hotline Bling" },
+  { id: "YQHsXMglC9A", title: "Adele - Hello" },
+  { id: "FlsCjmMhFmw", title: "Justin Bieber - Baby" },
+  { id: "Zi_XLOBDo_Y", title: "Michael Jackson - Billie Jean" },
+  { id: "nYh-n7EOtMA", title: "Charlie Puth - Attention" },
+  { id: "y6120QOlsfU", title: "Nyan Cat" },
+  { id: "KQ6zr6kCPj8", title: "LMFAO - Party Rock Anthem" },
+  { id: "6Dh-RL__uN4", title: "BTS - Dynamite" },
+  { id: "UceaB4D0jpo", title: "BLACKPINK - How You Like That" },
+  { id: "2vjPBrBU-TM", title: "Sia - Chandelier" },
+  { id: "fRh_vgS2dFE", title: "Justin Bieber - Sorry" },
+  { id: "9Deg7VrpHbM", title: "Kanye West - Stronger" },
+  { id: "iOe6dI2JhgU", title: "Avicii - Wake Me Up" },
+  { id: "fLexgOxsZu0", title: "Pitbull - Timber ft. Kesha" },
+  { id: "uelHwf8o7_U", title: "Eminem - Love The Way You Lie" }
+];
 
-  <!-- Video Section -->
-  <div class="video-section px-6 py-4">
-    <h2 class="text-lg font-bold border-l-4 border-pink-500 pl-3 mb-4">Latest YouTube Videos</h2>
-    <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid">
-      <!-- Video cards will be inserted here -->
+const videoGrid = document.getElementById("videoGrid");
+const modal = document.getElementById("videoModal");
+const iframe = document.getElementById("modalIframe");
+
+videos.forEach(video => {
+  const card = document.createElement("div");
+  card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-transform";
+  card.innerHTML = `
+    <div class="video-thumb">
+      <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
     </div>
-  </div>
-
-  <!-- Video Modal -->
-  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="bg-gray-900 rounded-lg w-[95%] max-w-5xl relative">
-      <button onclick="closeModal()" class="absolute top-2 right-3 text-white text-2xl font-bold z-50">✕</button>
-      <div class="w-full aspect-video">
-        <iframe id="modalIframe" class="w-full h-full rounded-b-lg" src="" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+    <div class="video-info p-2">
+      <div class="video-title text-sm font-bold mb-1">${video.title}</div>
+      <div class="video-stats text-xs text-gray-400 flex justify-between">
+        <span><i class="fas fa-eye"></i> Random</span>
+        <span><i class="fas fa-clock"></i> Recent</span>
       </div>
-    </div>
-  </div>
+    </div>`;
+  card.onclick = () => openModal(video.id);
+  videoGrid.appendChild(card);
+});
 
-  <!-- Scripts -->
-  <script>
-    const videos = [
-      { id: "dQw4w9WgXcQ", title: "Never Gonna Give You Up" },
-      { id: "oHg5SJYRHA0", title: "Classic Rick Roll" },
-      { id: "9bZkp7q19f0", title: "Gangnam Style" },
-      { id: "60ItHLz5WEA", title: "Alan Walker - Faded" },
-      { id: "kXYiU_JCYtU", title: "Numb - Linkin Park" },
-      { id: "RgKAFK5djSk", title: "Wiz Khalifa - See You Again" },
-      { id: "L_jWHffIx5E", title: "Coolio - Gangsta's Paradise" },
-      { id: "eVTXPUF4Oz4", title: "In The End - Linkin Park" },
-      { id: "JGwWNGJdvx8", title: "Ed Sheeran - Shape of You" },
-      { id: "CevxZvSJLk8", title: "Katy Perry - Roar" },
-      { id: "3tmd-ClpJxA", title: "Marshmello - Alone" },
-      { id: "hT_nvWreIhg", title: "Imagine Dragons - Demons" },
-      { id: "VbfpW0pbvaU", title: "David Guetta - Titanium" },
-      { id: "ktvTqknDobU", title: "Radioactive - Imagine Dragons" },
-      { id: "pRpeEdMmmQ0", title: "Shakira - Waka Waka" },
-      { id: "lp-EO5I60KA", title: "Drake - Hotline Bling" },
-      { id: "YQHsXMglC9A", title: "Adele - Hello" },
-      { id: "FlsCjmMhFmw", title: "Justin Bieber - Baby" },
-      { id: "Zi_XLOBDo_Y", title: "Michael Jackson - Billie Jean" },
-      { id: "nYh-n7EOtMA", title: "Charlie Puth - Attention" },
-      { id: "y6120QOlsfU", title: "Nyan Cat" },
-      { id: "KQ6zr6kCPj8", title: "LMFAO - Party Rock Anthem" },
-      { id: "6Dh-RL__uN4", title: "BTS - Dynamite" },
-      { id: "UceaB4D0jpo", title: "BLACKPINK - How You Like That" },
-      { id: "2vjPBrBU-TM", title: "Sia - Chandelier" },
-      { id: "fRh_vgS2dFE", title: "Justin Bieber - Sorry" },
-      { id: "9Deg7VrpHbM", title: "Kanye West - Stronger" },
-      { id: "iOe6dI2JhgU", title: "Avicii - Wake Me Up" },
-      { id: "fLexgOxsZu0", title: "Pitbull - Timber ft. Kesha" },
-      { id: "uelHwf8o7_U", title: "Eminem - Love The Way You Lie" }
-    ];
+function openModal(videoId) {
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`;
+  modal.classList.remove("hidden");
+  document.body.style.overflow = 'hidden';
+}
 
-    const videoGrid = document.getElementById("videoGrid");
-    const modal = document.getElementById("videoModal");
-    const iframe = document.getElementById("modalIframe");
+function closeModal() {
+  iframe.src = "";
+  modal.classList.add("hidden");
+  document.body.style.overflow = 'auto';
+}
 
-    videos.forEach(video => {
-      const card = document.createElement("div");
-      card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-transform";
-      card.innerHTML = `
-        <div class="video-thumb">
-          <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
-        </div>
-        <div class="video-info p-2">
-          <div class="video-title text-sm font-bold mb-1">${video.title}</div>
-          <div class="video-stats text-xs text-gray-400 flex justify-between">
-            <span><i class="fas fa-eye"></i> Random</span>
-            <span><i class="fas fa-clock"></i> Recent</span>
-          </div>
-        </div>`;
-      card.onclick = () => openModal(video.id);
-      videoGrid.appendChild(card);
-    });
+function searchVideos() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const cards = document.querySelectorAll("#videoGrid .video-card");
+  cards.forEach(card => {
+    const title = card.querySelector(".video-title").textContent.toLowerCase();
+    card.classList.toggle("hidden", !title.includes(input));
+  });
+}
 
-    function openModal(videoId) {
-      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-      modal.classList.remove("hidden");
-      document.body.style.overflow = 'hidden'; // prevent scroll
-    }
+// Enter only triggers search if modal is closed
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") closeModal();
+  if (e.key === "Enter" && modal.classList.contains("hidden")) {
+    searchVideos();
+  }
+});
 
-    function closeModal() {
-      iframe.src = "";
-      modal.classList.add("hidden");
-      document.body.style.overflow = 'auto';
-    }
-
-    function searchVideos() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const cards = document.querySelectorAll("#videoGrid .video-card");
-
-      cards.forEach(card => {
-        const title = card.querySelector(".video-title").textContent.toLowerCase();
-        card.classList.toggle("hidden", !title.includes(input));
-      });
-    }
-
-    // Enter key only works when modal is closed
-    document.addEventListener("keydown", function(e) {
-      const isModalOpen = !modal.classList.contains("hidden");
-      if (e.key === "Enter" && !isModalOpen) {
-        searchVideos();
-      }
-    });
-
-    // Live filter (optional, remove if not needed)
-    document.getElementById("searchInput").addEventListener("input", searchVideos);
-  </script>
+// Click outside closes modal
+modal.addEventListener("click", function (e) {
+  if (e.target === modal) closeModal();
+});
+</script>
 
 </body>
 </html>
