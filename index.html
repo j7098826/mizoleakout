@@ -61,10 +61,10 @@
 </div>
 
 <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-  <div class="relative w-[95%] max-w-6xl">
+  <div class="relative w-full max-w-7xl mx-4">
     <button onclick="closeModal()" class="absolute top-2 right-3 text-white text-3xl font-bold z-50">&times;</button>
-    <div class="w-full h-[80vh]">
-      <iframe id="modalIframe" class="w-full h-full rounded-b-lg" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+    <div class="w-full aspect-video">
+      <iframe id="modalIframe" class="w-full h-full rounded-lg" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
     </div>
   </div>
 </div>
