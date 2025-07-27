@@ -55,16 +55,16 @@
   <div class="video-section px-6 py-4">
     <h2 class="text-lg font-bold border-l-4 border-pink-500 pl-3 mb-4">Latest YouTube Videos</h2>
     <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid">
-      <!-- Video cards will be inserted here by JavaScript -->
+      <!-- Video cards will be inserted here -->
     </div>
   </div>
 
   <!-- Video Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="bg-gray-900 rounded-lg w-[90%] max-w-3xl relative">
-      <button onclick="closeModal()" class="absolute top-2 right-3 text-white text-xl">✕</button>
-      <div class="aspect-w-16 aspect-h-9">
-        <iframe id="modalIframe" class="w-full h-[400px] sm:h-[500px]" src="" frameborder="0" allowfullscreen></iframe>
+    <div class="bg-gray-900 rounded-lg w-[95%] max-w-5xl relative">
+      <button onclick="closeModal()" class="absolute top-2 right-3 text-white text-2xl font-bold z-50">✕</button>
+      <div class="w-full aspect-video">
+        <iframe id="modalIframe" class="w-full h-full rounded-b-lg" src="" frameborder="0" allowfullscreen allow="autoplay"></iframe>
       </div>
     </div>
   </div>
@@ -105,6 +105,8 @@
     ];
 
     const videoGrid = document.getElementById("videoGrid");
+    const modal = document.getElementById("videoModal");
+    const iframe = document.getElementById("modalIframe");
 
     videos.forEach(video => {
       const card = document.createElement("div");
@@ -125,20 +127,17 @@
     });
 
     function openModal(videoId) {
-      const modal = document.getElementById("videoModal");
-      const iframe = document.getElementById("modalIframe");
       iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
       modal.classList.remove("hidden");
+      document.body.style.overflow = 'hidden'; // prevent scroll
     }
 
     function closeModal() {
-      const modal = document.getElementById("videoModal");
-      const iframe = document.getElementById("modalIframe");
       iframe.src = "";
       modal.classList.add("hidden");
+      document.body.style.overflow = 'auto';
     }
 
-    // 🔍 Search by caption (live as you type)
     function searchVideos() {
       const input = document.getElementById("searchInput").value.toLowerCase();
       const cards = document.querySelectorAll("#videoGrid .video-card");
@@ -149,11 +148,16 @@
       });
     }
 
-    // 🔁 Trigger search on typing
-    document.getElementById("searchInput").addEventListener("input", searchVideos);
-    document.getElementById("searchInput").addEventListener("keypress", function(e) {
-      if (e.key === "Enter") searchVideos();
+    // Enter key only works when modal is closed
+    document.addEventListener("keydown", function(e) {
+      const isModalOpen = !modal.classList.contains("hidden");
+      if (e.key === "Enter" && !isModalOpen) {
+        searchVideos();
+      }
     });
+
+    // Live filter (optional, remove if not needed)
+    document.getElementById("searchInput").addEventListener("input", searchVideos);
   </script>
 
 </body>
