@@ -34,6 +34,48 @@
     .video-card:hover {
       transform: scale(1.03);
       box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    /* Enhanced modal styles */
+    #videoModal {
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      max-width: 95vw;
+      max-height: 90vh;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: rgba(0,0,0,0.8);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 60;
+    }
+    
+    .close-btn:hover {
+      background: rgba(255,0,0,0.8);
+      transform: scale(1.1);
+    }
+    
+    @media (max-width: 768px) {
+      .modal-content {
+        margin: 20px;
+      }
+      .close-btn {
+        top: -50px;
+        right: 10px;
+      }
     }
   </style>
 </head>
@@ -60,77 +102,121 @@
   <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid"></div>
 </div>
 
-<div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-  <div class="relative w-full max-w-7xl mx-4">
-    <button onclick="closeModal()" class="absolute top-2 right-3 text-white text-3xl font-bold z-50">&times;</button>
-    <div class="w-full aspect-video">
-      <iframe id="modalIframe" class="w-full h-full rounded-lg" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+<div id="videoModal" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 hidden">
+  <div class="modal-content relative w-full">
+    <div class="close-btn" onclick="closeModal()" title="Close Video">
+      <i class="fas fa-times text-white text-xl"></i>
+    </div>
+    <div class="w-full" style="aspect-ratio: 16/9;">
+      <iframe id="modalIframe" class="w-full h-full rounded-lg shadow-2xl" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
     </div>
   </div>
 </div>
 
 <script>
-fetch('videos.json')
-  .then(response => response.json())
-  .then(data => {
-    const videoGrid = document.getElementById("videoGrid");
-    const modal = document.getElementById("videoModal");
-    const iframe = document.getElementById("modalIframe");
+// Global variables and functions
+let modal, iframe;
 
-    const videos = [].concat(...data.playlists.map(p => p.videos));
+// Global function to close modal
+function closeModal() {
+  if (iframe) iframe.src = "";
+  if (modal) modal.classList.add("hidden");
+  document.body.style.overflow = 'auto';
+}
 
-    videos.forEach(video => {
-      const views = Math.floor(Math.random() * (50000 - 30000) + 30000).toLocaleString();
-      const card = document.createElement("div");
-      card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-transform";
-      card.innerHTML = `
-        <div class="video-thumb">
-          <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
-          <span class="duration">${video.duration}</span>
-        </div>
-        <div class="video-info p-2">
-          <div class="video-title text-sm font-bold mb-1">${video.title}</div>
-          <div class="video-stats text-xs text-gray-400 flex justify-between">
-            <span><i class="fas fa-eye"></i> ${views} views</span>
-            <span><i class="fas fa-clock"></i> Recent</span>
-          </div>
-        </div>`;
-      card.onclick = () => openModal(video.id);
-      videoGrid.appendChild(card);
-    });
+// Global function to open modal
+function openModal(videoId) {
+  if (iframe && modal) {
+    iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`;
+    modal.classList.remove("hidden");
+    document.body.style.overflow = 'hidden';
+  }
+}
 
-    function openModal(videoId) {
-      iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
-      modal.classList.remove("hidden");
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      iframe.src = "";
-      modal.classList.add("hidden");
-      document.body.style.overflow = 'auto';
-    }
-
-    function searchVideos() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const cards = document.querySelectorAll("#videoGrid .video-card");
-      cards.forEach(card => {
-        const title = card.querySelector(".video-title").textContent.toLowerCase();
-        card.classList.toggle("hidden", !title.includes(input));
-      });
-    }
-
-    document.addEventListener("keydown", function(e) {
-      if (e.key === "Escape") closeModal();
-      if (e.key === "Enter" && modal.classList.contains("hidden")) {
-        searchVideos();
-      }
-    });
-
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) closeModal();
-    });
+// Global search function
+function searchVideos() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const cards = document.querySelectorAll("#videoGrid .video-card");
+  cards.forEach(card => {
+    const title = card.querySelector(".video-title").textContent.toLowerCase();
+    card.classList.toggle("hidden", !title.includes(input));
   });
+}
+
+// Sample video data (since videos.json might not be available)
+const sampleData = {
+  playlists: [{
+    videos: [
+      { id: "dQw4w9WgXcQ", title: "Sample Video 1", duration: "3:35" },
+      { id: "9bZkp7q19f0", title: "Sample Video 2", duration: "4:12" },
+      { id: "kJQP7kiw5Fk", title: "Sample Video 3", duration: "2:48" },
+      { id: "fJ9rUzIMcZQ", title: "Sample Video 4", duration: "5:21" },
+      { id: "astISOttCQ0", title: "Sample Video 5", duration: "3:47" }
+    ]
+  }]
+};
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+  // Get modal and iframe references
+  modal = document.getElementById("videoModal");
+  iframe = document.getElementById("modalIframe");
+  
+  // Try to fetch videos.json, fallback to sample data
+  fetch('videos.json')
+    .then(response => {
+      if (!response.ok) throw new Error('videos.json not found');
+      return response.json();
+    })
+    .catch(() => {
+      console.log('Using sample data since videos.json is not available');
+      return sampleData;
+    })
+    .then(data => {
+      const videoGrid = document.getElementById("videoGrid");
+      const videos = [].concat(...data.playlists.map(p => p.videos));
+
+      videos.forEach(video => {
+        const views = Math.floor(Math.random() * (50000 - 30000) + 30000).toLocaleString();
+        const card = document.createElement("div");
+        card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-all duration-300";
+        card.innerHTML = `
+          <div class="video-thumb">
+            <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
+            <span class="duration">${video.duration}</span>
+          </div>
+          <div class="video-info p-2">
+            <div class="video-title text-sm font-bold mb-1 line-clamp-2">${video.title}</div>
+            <div class="video-stats text-xs text-gray-400 flex justify-between">
+              <span><i class="fas fa-eye"></i> ${views} views</span>
+              <span><i class="fas fa-clock"></i> Recent</span>
+            </div>
+          </div>`;
+        card.onclick = () => openModal(video.id);
+        videoGrid.appendChild(card);
+      });
+    });
+
+  // Event listeners
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeModal();
+    if (e.key === "Enter" && document.activeElement.id === "searchInput") {
+      searchVideos();
+    }
+  });
+
+  // Click outside modal to close
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) closeModal();
+  });
+  
+  // Search on Enter key in search input
+  document.getElementById("searchInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      searchVideos();
+    }
+  });
+});
 </script>
 
 </body>
