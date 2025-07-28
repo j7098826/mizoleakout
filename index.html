@@ -9,44 +9,42 @@
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Custom Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#0a0a0a] text-white">
+<body class="bg-black text-white font-sans">
 
   <!-- Navbar -->
-  <div class="navbar bg-black px-4 py-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-    <!-- Logo -->
-    <a href="index.html" class="logo flex justify-center sm:justify-start">
-      <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20" style="user-select: none; pointer-events: none;" draggable="false">
+  <div class="navbar flex justify-between items-center bg-black px-4 py-3 sm:px-6">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 select-none pointer-events-none">
     </a>
-
-    <!-- Search Bar -->
-    <div class="search-bar flex w-full sm:w-auto bg-gray-800 rounded overflow-hidden">
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search videos..." 
-        class="bg-transparent px-3 py-2 text-white w-full sm:w-64 outline-none"
-      >
+    <div class="search-bar flex bg-gray-800 rounded overflow-hidden w-full max-w-md ml-4">
+      <input type="text" id="searchInput" placeholder="Search videos..." 
+             class="bg-transparent px-3 py-2 outline-none text-white w-full placeholder-gray-400">
       <button 
         onclick="searchVideos()" 
-        class="bg-[#FFA500] px-4 text-white"
+        class="bg-[#FFA500] hover:bg-[#e68a00] active:bg-[#cc7a00] px-4 text-white transition-colors duration-200"
       >
         <i class="fas fa-search"></i>
       </button>
     </div>
   </div>
 
+  <!-- Navigation Tabs -->
+  <div class="nav-tabs flex bg-zinc-900 px-4 py-3 space-x-6 text-sm sm:text-base">
+    <a href="#" class="text-[#FFA500] font-semibold">Home</a>
+    <a href="#" class="text-white hover:text-[#FFA500]">Categories</a>
+    <a href="#" class="text-white hover:text-[#FFA500]">Popular</a>
+  </div>
+
   <!-- Video Grid -->
   <div class="px-4 py-4">
-    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="videoGrid">
-      <!-- JS Injected Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5" id="videoGrid">
+      <!-- JS will inject cards here -->
     </div>
   </div>
 
-  <!-- Video Modal -->
+  <!-- Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
     <div class="modal-content relative max-w-5xl w-full">
       <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close Video">
@@ -58,7 +56,7 @@
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- Main JS -->
   <script src="main.js"></script>
 </body>
 </html>
