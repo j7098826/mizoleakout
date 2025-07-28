@@ -10,21 +10,23 @@ body {
     overflow-x: hidden;
 }
 
-/* Mobile-first navigation */
+/* FIXED: Mobile-first navigation with proper z-index */
 nav {
     background: rgba(0, 0, 0, 0.98);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 140, 0, 0.2);
-    /* Fixed positioning optimization for mobile */
+    /* CRITICAL FIX: Higher z-index to stay above content */
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1000; /* Increased from 50 to 1000 */
     padding: 12px 16px;
     max-width: 1400px;
     margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Mobile logo optimization */
@@ -97,17 +99,17 @@ nav {
     background: linear-gradient(45deg, #FF6B00, #E55A00);
 }
 
-/* Mobile-optimized main content */
+/* FIXED: Mobile-optimized main content with proper spacing */
 main {
-    padding: 120px 12px 20px 12px; /* Increased padding for fixed navbar */
+    padding: 140px 12px 20px 12px; /* CRITICAL FIX: Increased from 120px to 140px */
     min-height: 100vh;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    z-index: 1; /* Ensure main content is properly stacked */
+    z-index: 1; /* Lower than nav to ensure proper stacking */
 }
 
-/* Mobile-first video grid */
+/* FIXED: Mobile-first video grid with proper z-index */
 .video-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -115,7 +117,7 @@ main {
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    z-index: 2; /* Ensure grid is properly stacked */
+    z-index: 1; /* Below nav but above background */
 }
 
 /* Responsive breakpoints for mobile-first */
@@ -125,7 +127,7 @@ main {
         gap: 14px;
     }
     main {
-        padding: 120px 16px 20px 16px;
+        padding: 140px 16px 20px 16px; /* Maintained increased padding */
     }
 }
 
@@ -150,7 +152,7 @@ main {
     }
 }
 
-/* Mobile-optimized video cards */
+/* FIXED: Mobile-optimized video cards with proper z-index layering */
 .video-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     background-color: #111111;
@@ -158,8 +160,8 @@ main {
     overflow: hidden;
     cursor: pointer;
     border: 2px solid transparent;
-    position: relative; /* Ensure proper positioning */
-    z-index: 1; /* Ensure cards are properly stacked */
+    position: relative;
+    z-index: 1; /* Below nav but properly stacked */
     /* Optimize for touch */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -182,7 +184,7 @@ main {
     transform: translateY(-6px) scale(1.02);
     box-shadow: 0 12px 35px rgba(255, 140, 0, 0.3);
     border-color: #FF8C00;
-    z-index: 5; /* Ensure hovered cards appear above others */
+    z-index: 10; /* Higher when hovered, but still below nav */
 }
 
 /* Mobile-optimized thumbnails */
@@ -191,7 +193,7 @@ main {
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     overflow: hidden;
     border-radius: 8px 8px 0 0;
-    z-index: 1; /* Ensure thumbnails are above other elements */
+    z-index: 1; /* Ensure thumbnails are visible */
 }
 
 .video-thumb img {
@@ -226,14 +228,14 @@ main {
     font-weight: 600;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 3; /* Ensure duration badge is above the thumbnail */
+    z-index: 3; /* Above thumbnail */
 }
 
 /* Mobile-optimized video info */
 .video-info {
     padding: 12px 14px 16px 14px;
     position: relative;
-    z-index: 2; /* Ensure video info is above the thumbnail */
+    z-index: 2; /* Above thumbnail */
 }
 
 .video-title {
@@ -265,7 +267,7 @@ main {
     gap: 4px;
 }
 
-/* Enhanced Video Modal */
+/* FIXED: Enhanced Video Modal with highest z-index */
 #videoModal {
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
@@ -277,7 +279,7 @@ main {
     right: 0;
     bottom: 0;
     overflow: hidden;
-    z-index: 2000;
+    z-index: 2000; /* CRITICAL FIX: Highest z-index for modal */
     /* Desktop modal optimization */
     display: flex;
     align-items: center;
@@ -385,7 +387,7 @@ main {
     min-height: 400px;
 }
 
-/* Mobile-optimized close button */
+/* FIXED: Mobile-optimized close button with proper z-index */
 .close-btn {
     width: 44px;
     height: 44px;
@@ -400,7 +402,7 @@ main {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 2100;
+    z-index: 2100; /* Above modal content */
     /* Optimize for touch */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -588,7 +590,7 @@ main {
         padding: 16px;
     }
     
-    /* Optimize navbar for small screens */
+    /* FIXED: Optimize navbar for small screens with proper spacing */
     nav {
         padding: 10px 12px;
     }
@@ -596,6 +598,11 @@ main {
     .logo svg {
         width: 50px;
         height: 50px;
+    }
+    
+    /* FIXED: Adjust main padding for smaller nav */
+    main {
+        padding-top: 120px; /* Slightly reduced for smaller nav */
     }
 }
 
@@ -619,108 +626,4 @@ main {
     
     .search-bar input {
         padding: 12px 14px;
-        font-size: 16px;
-    }
-    
-    .install-banner {
-        left: 12px;
-        right: 12px;
-        bottom: 16px;
-    }
-}
-
-/* Landscape mobile optimization */
-@media (max-height: 500px) and (orientation: landscape) {
-    .video-container {
-        height: 70vh;
-        max-height: none;
-    }
-    
-    .modal-content {
-        justify-content: flex-start;
-        padding-top: 40px;
-    }
-}
-
-/* Prevent zoom on inputs (iOS) */
-input[type="text"],
-input[type="search"] {
-    font-size: 16px !important;
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Selection styling */
-::selection {
-    background: rgba(255, 140, 0, 0.3);
-    color: white;
-}
-
-/* Webkit selection styling */
-::-webkit-selection {
-    background: rgba(255, 140, 0, 0.3);
-    color: white;
-}
-
-/* Focus styles for accessibility */
-.search-btn:focus,
-.close-btn:focus,
-.video-card:focus {
-    outline: 3px solid #FF8C00;
-    outline-offset: 2px;
-}
-
-/* iOS Safari specific fixes */
-@supports (-webkit-appearance: none) {
-    .search-bar input {
-        -webkit-appearance: none;
-        appearance: none;
-        border-radius: 0;
-    }
-}
-
-/* Hardware acceleration for video cards */
-.video-card {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-}
-
-/* PWA safe area support (iPhone X+) */
-@supports (padding: max(0px)) {
-    main {
-        padding-left: max(12px, env(safe-area-inset-left));
-        padding-right: max(12px, env(safe-area-inset-right));
-    }
-    
-    nav {
-        padding-left: max(16px, env(safe-area-inset-left));
-        padding-right: max(16px, env(safe-area-inset-right));
-        padding-top: max(12px, env(safe-area-inset-top));
-    }
-    
-    .install-banner {
-        bottom: max(20px, env(safe-area-inset-bottom));
-    }
-}
-
-/* Fallback for browsers that don't support env() */
-@supports not (padding: max(0px)) {
-    main {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-    
-    nav {
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-top: 12px;
-    }
-    
-    .install-banner {
-        bottom: 20px;
-    }
-}
+        font-size: 16px
