@@ -21,7 +21,7 @@ nav {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 50;
+    z-index: 1000;
     padding: 12px 16px;
     max-width: 1400px;
     margin: 0 auto;
@@ -99,7 +99,7 @@ nav {
 
 /* Mobile-optimized main content */
 main {
-    padding: 90px 12px 20px 12px; /* Account for fixed navbar */
+    padding: 120px 12px 20px 12px; /* Increased padding for fixed navbar */
     min-height: 100vh;
     max-width: 1400px;
     margin: 0 auto;
@@ -112,6 +112,8 @@ main {
     gap: 16px;
     max-width: 1400px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 /* Responsive breakpoints for mobile-first */
@@ -121,7 +123,7 @@ main {
         gap: 14px;
     }
     main {
-        padding: 90px 16px 20px 16px;
+        padding: 120px 16px 20px 16px;
     }
 }
 
@@ -173,12 +175,9 @@ main {
 }
 
 .video-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.25);
-    border-color: #FF8C00;
-    /* Enhanced desktop hover */
     transform: translateY(-6px) scale(1.02);
     box-shadow: 0 12px 35px rgba(255, 140, 0, 0.3);
+    border-color: #FF8C00;
 }
 
 /* Mobile-optimized thumbnails */
@@ -532,7 +531,7 @@ main {
 /* Extra small mobile devices */
 @media (max-width: 480px) {
     main {
-        padding: 85px 8px 16px 8px;
+        padding: 110px 8px 16px 8px;
     }
     
     .video-grid {
