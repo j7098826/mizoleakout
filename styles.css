@@ -255,7 +255,7 @@ main {
     gap: 4px;
 }
 
-/* Mobile-optimized modal */
+/* Enhanced Video Modal */
 #videoModal {
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
@@ -267,11 +267,72 @@ main {
     right: 0;
     bottom: 0;
     overflow: hidden;
-    z-index: 100;
+    z-index: 2000;
     /* Desktop modal optimization */
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Video Info Header */
+.video-info-header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Video Wrapper */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.video-wrapper:hover .video-controls {
+    opacity: 1;
+}
+
+/* Video Controls */
+.video-controls {
+    pointer-events: none;
+}
+
+.video-controls > div {
+    pointer-events: auto;
+}
+
+/* Progress Bar */
+.progress-bar {
+    cursor: pointer;
+    transition: height 0.2s ease;
+}
+
+.progress-bar:hover {
+    height: 4px;
+}
+
+.progress-fill {
+    transition: width 0.1s ease;
+}
+
+/* Action Buttons */
+.action-btn {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced Close Button */
+.close-btn {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .modal-content {
@@ -329,7 +390,7 @@ main {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 110;
+    z-index: 2100;
     /* Optimize for touch */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -405,7 +466,7 @@ main {
     border-radius: 12px;
     padding: 16px;
     color: white;
-    z-index: 1000;
+    z-index: 1500;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     animation: slideUp 0.3s ease;
 }
