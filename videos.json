@@ -1,49 +1,59 @@
 {
-  "name": "Zo Hub - Video Platform",
-  "short_name": "Zo Hub",
-  "description": "Watch amazing videos on your mobile device",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#FF8C00",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "categories": ["entertainment", "video", "media"],
-  "lang": "en",
-  "icons": [
+  "videos": [
     {
-      "src": "logo.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "id": 1,
+      "title": "Amazing Nature Documentary",
+      "description": "Explore the wonders of nature in this breathtaking documentary",
+      "thumbnail": "https://picsum.photos/300/200?random=1",
+      "videoUrl": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
+      "duration": "15:30",
+      "views": 12500,
+      "category": "Nature",
+      "uploadDate": "2024-01-15"
     },
     {
-      "src": "logo.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "shortcuts": [
+      "id": 2,
+      "title": "Cooking Masterclass",
+      "description": "Learn to cook delicious recipes from around the world",
+      "thumbnail": "https://picsum.photos/300/200?random=2",
+      "videoUrl": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
+      "duration": "22:45",
+      "views": 8900,
+      "category": "Cooking",
+      "uploadDate": "2024-01-20"
+    },
     {
-      "name": "Search Videos",
-      "short_name": "Search",
-      "description": "Search for videos",
-      "url": "/?search=true",
-      "icons": [
-        {
-          "src": "logo.png",
-          "sizes": "96x96"
-        }
-      ]
-    }
-  ],
-  "screenshots": [
+      "id": 3,
+      "title": "Tech Review 2024",
+      "description": "Latest technology reviews and gadget comparisons",
+      "thumbnail": "https://picsum.photos/300/200?random=3",
+      "videoUrl": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_5mb.mp4",
+      "duration": "18:20",
+      "views": 15600,
+      "category": "Technology",
+      "uploadDate": "2024-01-25"
+    },
     {
-      "src": "screenshot-mobile.png",
-      "sizes": "360x640",
-      "type": "image/png",
-      "form_factor": "narrow"
+      "id": 4,
+      "title": "Travel Vlog - Paris",
+      "description": "Experience the beauty of Paris through this travel vlog",
+      "thumbnail": "https://picsum.photos/300/200?random=4",
+      "videoUrl": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_10mb.mp4",
+      "duration": "25:15",
+      "views": 21000,
+      "category": "Travel",
+      "uploadDate": "2024-02-01"
+    },
+    {
+      "id": 5,
+      "title": "Fitness Workout",
+      "description": "Complete home workout routine for beginners",
+      "thumbnail": "https://picsum.photos/300/200?random=5",
+      "videoUrl": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
+      "duration": "12:30",
+      "views": 7500,
+      "category": "Fitness",
+      "uploadDate": "2024-02-05"
     }
   ]
 }
