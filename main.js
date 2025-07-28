@@ -1,6 +1,5 @@
 let modal, iframe;
 let allVideos = [];
-let currentCategory = 'all';
 
 function closeModal() {
   if (iframe) iframe.src = "";
@@ -24,12 +23,9 @@ function searchVideos() {
   cards.forEach(card => {
     const title = card.querySelector(".video-title").textContent.toLowerCase();
     const matchesSearch = title.includes(input);
-    const matchesCategory = currentCategory === 'all' || card.dataset.category === currentCategory;
 
-    const show = matchesSearch && matchesCategory;
-
-    card.classList.toggle("hidden", !show);
-    if (show) visibleCount++;
+    card.classList.toggle("hidden", !matchesSearch);
+    if (matchesSearch) visibleCount++;
   });
 
   const noResults = document.getElementById("noResults");
@@ -46,34 +42,9 @@ function searchVideos() {
   }
 }
 
-function filterByCategory(category) {
-  currentCategory = category;
-  const cards = document.querySelectorAll("#videoGrid .video-card");
-
-  cards.forEach(card => {
-    if (category === 'all' || card.dataset.category === category) {
-      card.classList.remove("hidden");
-    } else {
-      card.classList.add("hidden");
-    }
-  });
-
-  // Update active tab styling
-  const tabs = document.querySelectorAll(".nav-tabs a");
-  tabs.forEach(tab => {
-    tab.classList.remove("text-orange-custom", "font-semibold");
-    tab.classList.add("text-white");
-    if (tab.dataset.category === category) {
-      tab.classList.add("text-orange-custom", "font-semibold");
-      tab.classList.remove("text-white");
-    }
-  });
-}
-
 function createVideoCard(video) {
   const card = document.createElement("div");
   card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-all duration-300 hover:bg-gray-700 hover:scale-105";
-  card.dataset.category = video.category.toLowerCase().replace(/\s+/g, '-');
 
   card.innerHTML = `
     <div class="video-thumb relative">
@@ -82,7 +53,6 @@ function createVideoCard(video) {
            class="w-full h-40 object-cover"
            onerror="this.src='https://via.placeholder.com/320x180/374151/9CA3AF?text=Video+Thumbnail'">
       <span class="duration absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">${video.duration || ''}</span>
-      <div class="category-badge absolute top-2 left-2 bg-orange-custom text-white text-xs px-2 py-1 rounded">${video.category}</div>
     </div>
     <div class="video-info p-3">
       <div class="video-title text-sm font-bold mb-2 line-clamp-2 text-white leading-tight">${video.title}</div>
