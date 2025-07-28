@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zo Hub</title>
 
-  <!-- ✅ Correct Favicon Setup with SVG + PNG fallback -->
-  <link rel="icon" type="image/svg+xml" href="logo.svg">
-  <link rel="alternate icon" type="image/png" href="logo.png">
+  <!-- ✅ Favicon using logo.png -->
+  <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
 
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -17,6 +16,22 @@
 
   <!-- Custom Styles -->
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Custom color overrides */
+    .text-orange-custom {
+      color: #FF9900;
+    }
+    .bg-orange-custom {
+      background-color: #FF9900;
+    }
+    .border-orange-custom {
+      border-color: #FF9900;
+    }
+    .hover\:text-orange-custom:hover {
+      color: #FF9900;
+    }
+  </style>
 </head>
 <body class="bg-black text-white">
 
@@ -27,20 +42,20 @@
     </a>
     <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
       <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
-      <button onclick="searchVideos()" class="bg-pink-600 px-4 text-white"><i class="fas fa-search"></i></button>
+      <button onclick="searchVideos()" class="bg-orange-custom px-4 text-white"><i class="fas fa-search"></i></button>
     </div>
   </div>
 
   <!-- Navigation Tabs -->
   <div class="nav-tabs flex bg-gray-900 px-6 py-3 space-x-6">
-    <a href="#" class="text-pink-500 font-semibold">Home</a>
-    <a href="#" class="text-white hover:text-pink-400">Categories</a>
-    <a href="#" class="text-white hover:text-pink-400">Popular Videos</a>
+    <a href="#" class="text-orange-custom font-semibold">Home</a>
+    <a href="#" class="text-white hover:text-orange-custom">Categories</a>
+    <a href="#" class="text-white hover:text-orange-custom">Popular Videos</a>
   </div>
 
   <!-- Video Section -->
   <div class="video-section px-6 py-4">
-    <h2 class="text-lg font-bold border-l-4 border-pink-500 pl-3 mb-4">Latest Videos</h2>
+    <h2 class="text-lg font-bold border-l-4 border-orange-custom pl-3 mb-4">Latest Videos</h2>
     <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid"></div>
   </div>
 
