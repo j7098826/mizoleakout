@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zo Hub</title>
 
-  <!-- ✅ Favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
 
   <!-- Tailwind CSS -->
@@ -14,20 +14,19 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Custom CSS -->
   <style>
-    .text-orange-custom {
-      color: #FF9900;
+    .text-orange-custom { color: #FF9900; }
+    .bg-orange-custom { background-color: #FF9900; }
+    .border-orange-custom { border-color: #FF9900; }
+    .hover\:text-orange-custom:hover { color: #FF9900; }
+
+    /* Prevent long-press on logo */
+    .logo img {
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: none;
     }
-    .bg-orange-custom {
-      background-color: #FF9900;
-    }
-    .border-orange-custom {
-      border-color: #FF9900;
-    }
-    .hover\\:text-orange-custom:hover {
-      color: #FF9900;
-    }
+
     .video-card:hover {
       border: 2px solid #FF9900;
     }
@@ -36,53 +35,44 @@
 <body class="bg-black text-white">
 
   <!-- Navbar -->
-  <div class="navbar flex flex-col sm:flex-row justify-between items-center bg-black px-4 sm:px-6 py-4 space-y-4 sm:space-y-0">
-    <!-- ✅ Logo with fixed behavior -->
-    <a href="index.html" class="logo block">
-      <img 
-        src="logo.png" 
-        alt="Zo Hub Logo" 
-        class="h-24 sm:h-20 w-auto select-none pointer-events-none" 
-        draggable="false"
-      >
+  <div class="navbar flex justify-between items-center bg-black px-4 py-3">
+    <a href="/" class="logo block">
+      <img src="logo.png" alt="Zo Hub Logo" class="h-24 select-none">
     </a>
-
-    <!-- Search -->
-    <div class="search-bar flex bg-gray-800 rounded overflow-hidden w-full sm:w-auto">
-      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-full sm:w-64">
+    <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
+      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-48 sm:w-64">
       <button onclick="searchVideos()" class="bg-orange-custom px-4 text-white"><i class="fas fa-search"></i></button>
     </div>
   </div>
 
-  <!-- Tabs (optional) -->
-  <div class="nav-tabs flex bg-gray-900 px-4 sm:px-6 py-3 space-x-6 overflow-x-auto">
-    <a href="#" class="text-orange-custom font-semibold whitespace-nowrap">Home</a>
-    <a href="#" class="text-white hover:text-orange-custom whitespace-nowrap">Popular</a>
-    <a href="#" class="text-white hover:text-orange-custom whitespace-nowrap">Browse</a>
+  <!-- Tabs -->
+  <div class="nav-tabs flex bg-gray-900 px-4 py-2 space-x-6 text-sm sm:text-base">
+    <a href="#" class="text-orange-custom font-semibold">Home</a>
+    <a href="#" class="text-white hover:text-orange-custom">Popular</a>
+    <a href="#" class="text-white hover:text-orange-custom">My Playlist</a>
   </div>
 
-  <!-- Video Grid -->
-  <div class="video-section px-4 sm:px-6 py-4">
+  <!-- Video Section -->
+  <div class="video-section px-4 py-4">
     <h2 class="text-lg font-bold border-l-4 border-orange-custom pl-3 mb-4">Latest Videos</h2>
-    <div id="videoGrid" class="video-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+    <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
   </div>
 
   <!-- Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
     <div class="modal-content relative max-w-5xl w-full">
-      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close">
+      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close Video">
         <i class="fas fa-times text-white text-2xl"></i>
       </div>
-      <div class="video-container aspect-w-16 aspect-h-9">
+      <div class="aspect-w-16 aspect-h-9">
         <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
       </div>
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- Main Script -->
   <script>
     let modal, iframe;
-    let allVideos = [];
 
     function closeModal() {
       if (iframe) iframe.src = "";
@@ -101,8 +91,8 @@
     function searchVideos() {
       const input = document.getElementById("searchInput").value.toLowerCase();
       const cards = document.querySelectorAll("#videoGrid .video-card");
-      let visibleCount = 0;
 
+      let visibleCount = 0;
       cards.forEach(card => {
         const title = card.querySelector(".video-title").textContent.toLowerCase();
         const show = title.includes(input);
@@ -127,15 +117,12 @@
     function createVideoCard(video) {
       const card = document.createElement("div");
       card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105";
-
       card.innerHTML = `
         <div class="video-thumb relative">
-          <img 
-            src="${video.thumbnail || `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}" 
-            alt="${video.title}" 
-            class="w-full h-40 object-cover"
-            loading="lazy"
-            onerror="this.src='https://via.placeholder.com/320x180/374151/9CA3AF?text=Video+Thumbnail'">
+          <img loading="lazy" src="${video.thumbnail || `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}" 
+               alt="${video.title}"
+               class="w-full h-52 object-cover"
+               onerror="this.src='https://via.placeholder.com/320x180/374151/9CA3AF?text=No+Thumbnail'">
           <span class="duration absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">${video.duration || ''}</span>
         </div>
         <div class="video-info p-3">
@@ -146,7 +133,6 @@
           </div>
         </div>
       `;
-
       card.onclick = () => {
         if (video.id) {
           openModal(`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1&autoplay=1&vq=hd1080`);
@@ -154,7 +140,6 @@
           openModal(video.url);
         }
       };
-
       return card;
     }
 
@@ -162,7 +147,8 @@
       if (!dateString) return 'Recent';
       const date = new Date(dateString);
       const now = new Date();
-      const diffDays = Math.ceil(Math.abs(now - date) / (1000 * 60 * 60 * 24));
+      const diffTime = Math.abs(now - date);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       if (diffDays < 7) return `${diffDays}d ago`;
       if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
       if (diffDays < 365) return `${Math.floor(diffDays / 30)}m ago`;
@@ -176,20 +162,15 @@
       try {
         const response = await fetch('videos.json');
         const data = await response.json();
-        allVideos = data.videos;
-
         const videoGrid = document.getElementById("videoGrid");
         videoGrid.innerHTML = '';
-
-        allVideos.forEach(video => {
+        data.videos.forEach(video => {
           const card = createVideoCard(video);
           videoGrid.appendChild(card);
         });
-
       } catch (error) {
         console.error('Error loading videos:', error);
-        const videoGrid = document.getElementById("videoGrid");
-        videoGrid.innerHTML = `
+        document.getElementById("videoGrid").innerHTML = `
           <div class="col-span-full text-center text-gray-400 py-8">
             <i class="fas fa-exclamation-triangle text-4xl mb-4 text-red-500"></i><br>
             <p class="text-lg">Error loading videos</p>
