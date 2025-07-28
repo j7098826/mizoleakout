@@ -75,14 +75,22 @@ class MobileVideoPlayer {
         // Add desktop-specific hover effects to existing video cards
         const videoCards = document.querySelectorAll('.video-card');
         videoCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-6px) scale(1.02)';
-            });
+            // Remove existing listeners to prevent duplicates
+            card.removeEventListener('mouseenter', this.desktopHoverEnter);
+            card.removeEventListener('mouseleave', this.desktopHoverLeave);
             
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-            });
+            // Add new listeners
+            card.addEventListener('mouseenter', this.desktopHoverEnter);
+            card.addEventListener('mouseleave', this.desktopHoverLeave);
         });
+    }
+
+    desktopHoverEnter(e) {
+        e.target.style.transform = 'translateY(-6px) scale(1.02)';
+    }
+
+    desktopHoverLeave(e) {
+        e.target.style.transform = '';
     }
 
     addPullToRefresh() {
@@ -197,17 +205,102 @@ class MobileVideoPlayer {
         document.body.style.overflow = 'auto';
     }
 
-    openModal(videoUrl) {
+    openModal(videoUrl, videoData = null) {
         if (!this.modal || !this.iframe) {
             console.error('Modal or iframe not found');
             return;
         }
         
+        if (!videoUrl) {
+            console.error('No video URL provided');
+            return;
+        }
+        
         console.log('Opening modal with URL:', videoUrl);
-        this.iframe.src = videoUrl;
+        
+        // Update video info header
+        if (videoData) {
+            const titleElement = document.getElementById('modalVideoTitle');
+            const viewsElement = document.getElementById('modalVideoViews');
+            
+            if (titleElement) {
+                titleElement.textContent = videoData.title;
+            }
+            
+            if (viewsElement) {
+                const views = this.formatViews(videoData.views);
+                viewsElement.textContent = `${views} views • ${videoData.duration}`;
+            }
+        }
+        
+        // Set iframe source with enhanced parameters
+        const enhancedUrl = videoUrl.includes('youtube.com') 
+            ? `${videoUrl}?autoplay=1&rel=0&modestbranding=1&playsinline=1&controls=1&showinfo=0`
+            : videoUrl;
+            
+        this.iframe.src = enhancedUrl;
         this.modal.classList.remove('hidden');
         this.modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        
+        // Setup video controls
+        this.setupVideoControls();
+    }
+
+    formatViews(views) {
+        if (views >= 1000000000) {
+            return (views / 1000000000).toFixed(1) + 'B';
+        } else if (views >= 1000000) {
+            return (views / 1000000).toFixed(1) + 'M';
+        } else if (views >= 1000) {
+            return (views / 1000).toFixed(1) + 'K';
+        }
+        return views.toString();
+    }
+
+    setupVideoControls() {
+        // Add click handlers for action buttons
+        const actionButtons = document.querySelectorAll('.action-btn');
+        actionButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = btn.textContent.trim().toLowerCase();
+                
+                switch(action) {
+                    case 'like':
+                        btn.classList.toggle('bg-red-500');
+                        btn.classList.toggle('bg-orange-500');
+                        const icon = btn.querySelector('i');
+                        icon.classList.toggle('fas');
+                        icon.classList.toggle('far');
+                        break;
+                    case 'share':
+                        this.shareVideo();
+                        break;
+                    case 'download':
+                        this.downloadVideo();
+                        break;
+                }
+            });
+        });
+    }
+
+    shareVideo() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Check out this video on Zo Hub',
+                url: window.location.href
+            });
+        } else {
+            // Fallback: copy to clipboard
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+    }
+
+    downloadVideo() {
+        alert('Download feature coming soon!');
     }
 
     searchVideos() {
@@ -279,7 +372,7 @@ class MobileVideoPlayer {
             <div class="video-info p-3">
                 <h3 class="video-title text-white font-medium mb-2">${video.title}</h3>
                 <div class="video-stats flex justify-between text-xs text-gray-400">
-                    <span><i class="fas fa-eye mr-1"></i>${video.views}</span>
+                    <span><i class="fas fa-eye mr-1"></i>${this.formatViews(video.views)}</span>
                     <span><i class="fas fa-calendar-alt mr-1"></i>${this.formatDate(video.uploadDate)}</span>
                 </div>
             </div>
@@ -289,7 +382,7 @@ class MobileVideoPlayer {
             const videoUrl = video.id 
                 ? `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1` 
                 : video.videoUrl;
-            this.openModal(videoUrl);
+            this.openModal(videoUrl, video);
             
             // Add haptic feedback
             if (this.isMobile && 'vibrate' in navigator) {
@@ -358,17 +451,23 @@ class MobileVideoPlayer {
             // Add videos with staggered animation optimized for mobile
             this.allVideos.forEach((video, index) => {
                 setTimeout(() => {
-                    const videoCard = this.createVideoCard(video);
-                    videoCard.style.opacity = '0';
-                    videoCard.style.transform = 'translateY(20px)';
-                    this.videoGrid.appendChild(videoCard);
-                    
-                    // Trigger animation
-                    requestAnimationFrame(() => {
-                        videoCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                        videoCard.style.opacity = '1';
-                        videoCard.style.transform = 'translateY(0)';
-                    });
+                    try {
+                        const videoCard = this.createVideoCard(video);
+                        if (videoCard) {
+                            videoCard.style.opacity = '0';
+                            videoCard.style.transform = 'translateY(20px)';
+                            this.videoGrid.appendChild(videoCard);
+                            
+                            // Trigger animation
+                            requestAnimationFrame(() => {
+                                videoCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                                videoCard.style.opacity = '1';
+                                videoCard.style.transform = 'translateY(0)';
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error creating video card:', error);
+                    }
                 }, index * 30); // Faster stagger for mobile
             });
 
@@ -464,13 +563,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add iOS PWA prompt
     let deferredPrompt;
+    let showInstallPrompt;
+    
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        showInstallPrompt();
+        if (showInstallPrompt) showInstallPrompt();
     });
     
-    function showInstallPrompt() {
+    showInstallPrompt = function() {
         const installBanner = document.createElement('div');
         installBanner.className = 'install-banner';
         installBanner.innerHTML = `
