@@ -4,16 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zo Hub</title>
-  <link rel="icon" type="image/svg" href="logo.svg" />
+
+  <!-- ✅ Correct Favicon Setup with SVG + PNG fallback -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="alternate icon" type="image/png" href="logo.png">
+
+  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="bg-black text-white">
 
+  <!-- Navbar -->
   <div class="navbar flex justify-between items-center bg-black px-6 py-4">
     <a href="#" class="logo">
-      <img src="logo.png" alt="Mizo Leakout Logo" class="h-14">
+      <img src="logo.png" alt="Zo Hub Logo" class="h-14">
     </a>
     <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
       <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
@@ -21,28 +31,32 @@
     </div>
   </div>
 
+  <!-- Navigation Tabs -->
   <div class="nav-tabs flex bg-gray-900 px-6 py-3 space-x-6">
     <a href="#" class="text-pink-500 font-semibold">Home</a>
     <a href="#" class="text-white hover:text-pink-400">Categories</a>
     <a href="#" class="text-white hover:text-pink-400">Popular Videos</a>
   </div>
 
+  <!-- Video Section -->
   <div class="video-section px-6 py-4">
     <h2 class="text-lg font-bold border-l-4 border-pink-500 pl-3 mb-4">Latest Videos</h2>
     <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid"></div>
   </div>
 
+  <!-- Video Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="modal-content relative">
-      <div class="close-btn" onclick="closeModal()" title="Close Video">
-        <i class="fas fa-times text-white text-lg"></i>
+    <div class="modal-content relative max-w-5xl w-full">
+      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close Video">
+        <i class="fas fa-times text-white text-2xl"></i>
       </div>
-      <div class="video-container">
+      <div class="video-container aspect-w-16 aspect-h-9">
         <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
       </div>
     </div>
   </div>
 
+  <!-- Main JS -->
   <script src="main.js"></script>
 </body>
 </html>
