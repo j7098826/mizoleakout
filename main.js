@@ -176,6 +176,11 @@ class MobileVideoPlayer {
         this.modal = document.getElementById('videoModal');
         this.iframe = document.getElementById('modalIframe');
         
+        if (!this.modal || !this.iframe) {
+            console.error('Modal elements not found');
+            return;
+        }
+        
         // Close modal on tap outside
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) this.closeModal();
@@ -193,8 +198,12 @@ class MobileVideoPlayer {
     }
 
     openModal(videoUrl) {
-        if (!this.modal || !this.iframe) return;
+        if (!this.modal || !this.iframe) {
+            console.error('Modal or iframe not found');
+            return;
+        }
         
+        console.log('Opening modal with URL:', videoUrl);
         this.iframe.src = videoUrl;
         this.modal.classList.remove('hidden');
         this.modal.style.display = 'flex';
@@ -326,6 +335,8 @@ class MobileVideoPlayer {
     async loadVideos() {
         try {
             this.isLoading = true;
+            console.log('Loading videos...');
+            
             const response = await fetch('./videos.json').catch(() => fetch('videos.json'));
             
             if (!response.ok) {
@@ -333,9 +344,12 @@ class MobileVideoPlayer {
             }
             
             const data = await response.json();
+            console.log('Videos data:', data);
+            
             if (!data.videos) throw new Error('Invalid JSON format - missing videos array');
             
             this.allVideos = data.videos;
+            console.log(`Loaded ${this.allVideos.length} videos`);
             this.loadingIndicator.style.display = 'none';
             
             // Clear existing videos
