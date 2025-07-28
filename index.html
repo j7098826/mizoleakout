@@ -4,62 +4,209 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zo Hub</title>
-  <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
 
+  <!-- ✅ Favicon -->
+  <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom CSS -->
   <style>
-    .text-orange-custom { color: #FF9900; }
-    .bg-orange-custom { background-color: #FF9900; }
-    .border-orange-custom { border-color: #FF9900; }
-    .hover\:text-orange-custom:hover { color: #FF9900; }
-    .animate-fadeInZoom {
-      animation: fadeInZoom 0.3s ease-out;
+    .text-orange-custom {
+      color: #FF9900;
     }
-    @keyframes fadeInZoom {
-      0% { opacity: 0; transform: scale(0.95); }
-      100% { opacity: 1; transform: scale(1); }
+    .bg-orange-custom {
+      background-color: #FF9900;
+    }
+    .border-orange-custom {
+      border-color: #FF9900;
+    }
+    .hover\\:text-orange-custom:hover {
+      color: #FF9900;
+    }
+    .video-card:hover {
+      border: 2px solid #FF9900;
     }
   </style>
 </head>
 <body class="bg-black text-white">
+
   <!-- Navbar -->
-  <header class="flex flex-col sm:flex-row sm:justify-between items-center bg-black px-4 py-3 sm:px-6 sm:py-4">
-    <a href="#" class="mb-3 sm:mb-0">
-      <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 mx-auto">
+  <div class="navbar flex flex-col sm:flex-row justify-between items-center bg-black px-4 sm:px-6 py-4 space-y-4 sm:space-y-0">
+    <!-- ✅ Logo with fixed behavior -->
+    <a href="index.html" class="logo block">
+      <img 
+        src="logo.png" 
+        alt="Zo Hub Logo" 
+        class="h-24 sm:h-20 w-auto select-none pointer-events-none" 
+        draggable="false"
+      >
     </a>
-    <div class="w-full sm:w-auto flex bg-gray-800 rounded overflow-hidden">
-      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white flex-grow">
+
+    <!-- Search -->
+    <div class="search-bar flex bg-gray-800 rounded overflow-hidden w-full sm:w-auto">
+      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-full sm:w-64">
       <button onclick="searchVideos()" class="bg-orange-custom px-4 text-white"><i class="fas fa-search"></i></button>
     </div>
-  </header>
+  </div>
 
-  <!-- Tabs -->
-  <nav class="flex justify-center sm:justify-start bg-gray-900 px-4 py-2 space-x-4 sm:space-x-6 text-sm">
-    <a href="#" class="text-orange-custom font-semibold">Home</a>
-    <a href="#" class="text-white hover:text-orange-custom">Popular</a>
-    <a href="#" class="text-white hover:text-orange-custom">My List</a>
-  </nav>
+  <!-- Tabs (optional) -->
+  <div class="nav-tabs flex bg-gray-900 px-4 sm:px-6 py-3 space-x-6 overflow-x-auto">
+    <a href="#" class="text-orange-custom font-semibold whitespace-nowrap">Home</a>
+    <a href="#" class="text-white hover:text-orange-custom whitespace-nowrap">Popular</a>
+    <a href="#" class="text-white hover:text-orange-custom whitespace-nowrap">Browse</a>
+  </div>
 
-  <!-- Videos -->
-  <main class="px-4 py-5">
+  <!-- Video Grid -->
+  <div class="video-section px-4 sm:px-6 py-4">
     <h2 class="text-lg font-bold border-l-4 border-orange-custom pl-3 mb-4">Latest Videos</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid"></div>
-  </main>
+    <div id="videoGrid" class="video-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+  </div>
 
-  <!-- Video Modal -->
-  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden p-4">
-    <div class="modal-content relative w-full max-w-4xl max-h-[90vh]">
-      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close Video">
+  <!-- Modal -->
+  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+    <div class="modal-content relative max-w-5xl w-full">
+      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close">
         <i class="fas fa-times text-white text-2xl"></i>
       </div>
-      <div class="aspect-w-16 aspect-h-9">
-        <iframe id="modalIframe" class="w-full h-full rounded" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
+      <div class="video-container aspect-w-16 aspect-h-9">
+        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
       </div>
     </div>
   </div>
 
-  <script src="main.js"></script>
+  <!-- JS -->
+  <script>
+    let modal, iframe;
+    let allVideos = [];
+
+    function closeModal() {
+      if (iframe) iframe.src = "";
+      if (modal) modal.classList.add("hidden");
+      document.body.style.overflow = 'auto';
+    }
+
+    function openModal(videoUrl) {
+      if (iframe && modal) {
+        iframe.src = videoUrl;
+        modal.classList.remove("hidden");
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function searchVideos() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll("#videoGrid .video-card");
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector(".video-title").textContent.toLowerCase();
+        const show = title.includes(input);
+        card.classList.toggle("hidden", !show);
+        if (show) visibleCount++;
+      });
+
+      const noResults = document.getElementById("noResults");
+      if (visibleCount === 0 && input.length > 0) {
+        if (!noResults) {
+          const message = document.createElement("div");
+          message.id = "noResults";
+          message.className = "col-span-full text-center text-gray-400 py-8";
+          message.innerHTML = `<i class="fas fa-search text-4xl mb-4"></i><br>No videos found for "${input}"`;
+          document.getElementById("videoGrid").appendChild(message);
+        }
+      } else if (noResults) {
+        noResults.remove();
+      }
+    }
+
+    function createVideoCard(video) {
+      const card = document.createElement("div");
+      card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105";
+
+      card.innerHTML = `
+        <div class="video-thumb relative">
+          <img 
+            src="${video.thumbnail || `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}" 
+            alt="${video.title}" 
+            class="w-full h-40 object-cover"
+            loading="lazy"
+            onerror="this.src='https://via.placeholder.com/320x180/374151/9CA3AF?text=Video+Thumbnail'">
+          <span class="duration absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">${video.duration || ''}</span>
+        </div>
+        <div class="video-info p-3">
+          <div class="video-title text-sm font-bold mb-2 line-clamp-2 text-white leading-tight">${video.title}</div>
+          <div class="video-stats text-xs text-gray-400 flex justify-between items-center">
+            <span><i class="fas fa-eye mr-1"></i>${video.views || 'N/A'} views</span>
+            <span><i class="fas fa-calendar mr-1"></i>${formatDate(video.uploadDate)}</span>
+          </div>
+        </div>
+      `;
+
+      card.onclick = () => {
+        if (video.id) {
+          openModal(`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1&autoplay=1&vq=hd1080`);
+        } else if (video.url) {
+          openModal(video.url);
+        }
+      };
+
+      return card;
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return 'Recent';
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffDays = Math.ceil(Math.abs(now - date) / (1000 * 60 * 60 * 24));
+      if (diffDays < 7) return `${diffDays}d ago`;
+      if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+      if (diffDays < 365) return `${Math.floor(diffDays / 30)}m ago`;
+      return `${Math.floor(diffDays / 365)}y ago`;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      modal = document.getElementById("videoModal");
+      iframe = document.getElementById("modalIframe");
+
+      try {
+        const response = await fetch('videos.json');
+        const data = await response.json();
+        allVideos = data.videos;
+
+        const videoGrid = document.getElementById("videoGrid");
+        videoGrid.innerHTML = '';
+
+        allVideos.forEach(video => {
+          const card = createVideoCard(video);
+          videoGrid.appendChild(card);
+        });
+
+      } catch (error) {
+        console.error('Error loading videos:', error);
+        const videoGrid = document.getElementById("videoGrid");
+        videoGrid.innerHTML = `
+          <div class="col-span-full text-center text-gray-400 py-8">
+            <i class="fas fa-exclamation-triangle text-4xl mb-4 text-red-500"></i><br>
+            <p class="text-lg">Error loading videos</p>
+            <p class="text-sm">Please refresh the page or try again later</p>
+          </div>`;
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        if (e.target.value.length > 2 || e.target.value.length === 0) {
+          searchVideos();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
