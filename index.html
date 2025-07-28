@@ -19,7 +19,7 @@
     <a href="index.html" class="logo mb-2 sm:mb-0">
       <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 select-none pointer-events-none">
     </a>
-    <div class="search-bar flex w-full sm:w-auto max-w-md bg-gray-800 rounded-lg overflow-hidden border border-gray-700 focus-within:border-[#FFA500] focus-within:ring-1 focus-within:ring-[#FFA500] transition-all duration-300">
+    <div class="search-bar flex w-full sm:w-auto max-w-md bg-gray-800 rounded-lg overflow-hidden border border-gray-700 focus-within:border-orange-500 focus-within:ring-1 focus-within:ring-orange-500 transition-all duration-300">
       <input 
         type="text" 
         id="searchInput" 
@@ -28,7 +28,7 @@
       />
       <button 
         onclick="searchVideos()" 
-        class="search-btn bg-gradient-to-br from-[#FFA500] to-[#FF8C00] px-5 text-white hover:from-[#FF8C00] hover:to-[#FFA500] active:bg-[#cc8400] transition-all duration-200 flex items-center justify-center"
+        class="search-btn bg-orange-500 hover:bg-orange-600 active:bg-orange-700 px-5 text-white transition-all duration-200 flex items-center justify-center"
       >
         <i class="fas fa-search text-lg"></i>
       </button>
@@ -36,13 +36,13 @@
   </nav>
 
   <!-- Main Content -->
-  <main class="px-4 py-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" id="videoGrid">
+  <main class="px-4 py-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="videoGrid">
       <!-- Videos will be loaded here -->
     </div>
     
     <div id="loadingIndicator" class="text-center py-8">
-      <i class="fas fa-spinner fa-spin text-2xl text-[#FFA500]"></i>
+      <i class="fas fa-spinner fa-spin text-2xl text-orange-500"></i>
       <p class="mt-2">Loading videos...</p>
     </div>
   </main>
@@ -50,8 +50,8 @@
   <!-- Video Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
     <div class="modal-content relative w-full max-w-6xl mx-4">
-      <button onclick="closeModal()" class="close-btn absolute -top-4 -right-4">
-        <i class="fas fa-times"></i>
+      <button onclick="closeModal()" class="close-btn absolute -top-4 -right-4 bg-orange-500 hover:bg-orange-600">
+        <i class="fas fa-times text-white"></i>
       </button>
       <div class="video-container">
         <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen
