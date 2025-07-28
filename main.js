@@ -125,9 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch('videos.json');
     const data = await response.json();
 
-    allVideos = data.playlists.flatMap(playlist =>
-      playlist.videos.map(video => ({ ...video, category: playlist.name }))
-    );
+    allVideos = data.videos;
 
     const videoGrid = document.getElementById("videoGrid");
     videoGrid.innerHTML = '';
