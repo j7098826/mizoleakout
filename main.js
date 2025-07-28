@@ -42,7 +42,47 @@ class MobileVideoPlayer {
         
         if (this.isMobile) {
             document.body.classList.add('is-mobile');
+        } else {
+            // Desktop optimizations
+            document.body.classList.add('is-desktop');
+            this.setupDesktopOptimizations();
         }
+    }
+
+    setupDesktopOptimizations() {
+        // Add keyboard shortcuts for desktop
+        document.addEventListener('keydown', (e) => {
+            // Space bar to play/pause video
+            if (e.code === 'Space' && !this.modal.classList.contains('hidden')) {
+                e.preventDefault();
+                // Add video control logic here
+            }
+            
+            // Escape to close modal
+            if (e.code === 'Escape') {
+                this.closeModal();
+            }
+            
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
+    }
+
+    setupDesktopHoverEffects() {
+        // Add desktop-specific hover effects to existing video cards
+        const videoCards = document.querySelectorAll('.video-card');
+        videoCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-6px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
     }
 
     addPullToRefresh() {
@@ -148,6 +188,7 @@ class MobileVideoPlayer {
             this.iframe.removeAttribute('src');
         }
         this.modal.classList.add('hidden');
+        this.modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
 
@@ -156,6 +197,7 @@ class MobileVideoPlayer {
         
         this.iframe.src = videoUrl;
         this.modal.classList.remove('hidden');
+        this.modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
 
@@ -167,7 +209,7 @@ class MobileVideoPlayer {
         cards.forEach(card => {
             const title = card.querySelector('.video-title').textContent.toLowerCase();
             const matches = title.includes(searchTerm);
-            card.classList.toggle('hidden', !matches);
+            card.style.display = matches ? 'block' : 'none';
             if (matches) visibleCount++;
         });
         
@@ -186,7 +228,8 @@ class MobileVideoPlayer {
             if (!noResults) {
                 const message = document.createElement('div');
                 message.id = 'noResults';
-                message.className = 'col-span-full text-center py-16';
+                message.className = 'text-center py-16';
+                message.style.gridColumn = '1 / -1';
                 message.innerHTML = `
                     <div class="max-w-sm mx-auto">
                         <i class="fas fa-search text-5xl text-[#FF8C00] mb-6 opacity-60"></i>
@@ -225,7 +268,7 @@ class MobileVideoPlayer {
                 <span class="duration text-white">${video.duration || 'N/A'}</span>
             </div>
             <div class="video-info p-3">
-                <h3 class="video-title text-white font-medium mb-2 line-clamp-2">${video.title}</h3>
+                <h3 class="video-title text-white font-medium mb-2">${video.title}</h3>
                 <div class="video-stats flex justify-between text-xs text-gray-400">
                     <span><i class="fas fa-eye mr-1"></i>${video.views}</span>
                     <span><i class="fas fa-calendar-alt mr-1"></i>${this.formatDate(video.uploadDate)}</span>
@@ -314,6 +357,13 @@ class MobileVideoPlayer {
                     });
                 }, index * 30); // Faster stagger for mobile
             });
+
+            // Setup desktop hover effects after videos are loaded
+            if (!this.isMobile) {
+                setTimeout(() => {
+                    this.setupDesktopHoverEffects();
+                }, this.allVideos.length * 30 + 100);
+            }
             
         } catch (error) {
             console.error('Error loading videos:', error);
@@ -393,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add service worker for offline support (optional)
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(() => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {
             // Silently fail if service worker doesn't exist
         });
     }
