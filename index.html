@@ -2,32 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zo Hub - Enhanced Video Platform</title>
-    <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Zo Hub - Mobile Video Platform</title>
     
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FF8C00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Zo Hub">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Mobile optimizations -->
+    <style>
+        /* Critical CSS for above-the-fold content */
+        body { 
+            background: #000; 
+            color: white; 
+            margin: 0; 
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        nav { 
+            background: rgba(0,0,0,0.98); 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            z-index: 50; 
+        }
+        main { 
+            padding-top: 90px; 
+        }
+        .loading-spinner { 
+            border: 3px solid rgba(255,140,0,0.3); 
+            border-top-color: #FF8C00; 
+            border-radius: 50%; 
+            width: 32px; 
+            height: 32px; 
+            animation: spin 1s linear infinite; 
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
 <body class="text-white min-h-screen">
-    <!-- Navbar -->
-    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-6 py-4 sticky top-0 z-40 shadow-2xl">
-        <a href="index.html" class="logo mb-4 sm:mb-0">
-            <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 select-none pointer-events-none">
+    <!-- Mobile Navigation -->
+    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-4 py-3 sticky top-0 z-40 shadow-2xl">
+        <a href="#" class="logo mb-2 sm:mb-0" aria-label="Zo Hub Home">
+            <img src="logo.png" alt="Zo Hub Logo" class="h-12 sm:h-16 select-none pointer-events-none" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <svg width="60" height="60" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+                <circle cx="40" cy="40" r="40" fill="url(#gradient)"/>
+                <path d="M30 25v30l25-15L30 25z" fill="white"/>
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF8C00"/>
+                        <stop offset="100%" style="stop-color:#FF6B00"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </a>
+        
         <div class="search-bar flex w-full sm:w-auto max-w-lg rounded-xl overflow-hidden transition-all duration-300">
             <input 
-                type="text" 
+                type="search" 
                 id="searchInput" 
-                placeholder="Search amazing videos..." 
-                class="bg-transparent px-6 py-3 text-white outline-none w-full placeholder-gray-400"
+                placeholder="Search videos..." 
+                class="bg-transparent px-4 py-3 text-white outline-none w-full placeholder-gray-400"
                 autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                inputmode="search"
+                enterkeyhint="search"
             />
             <button 
                 onclick="searchVideos()" 
-                class="search-btn px-6 text-white flex items-center justify-center"
+                class="search-btn px-4 text-white flex items-center justify-center"
                 aria-label="Search videos"
+                type="button"
             >
                 <i class="fas fa-search text-lg"></i>
             </button>
@@ -35,24 +98,32 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="px-6 py-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8" id="videoGrid">
+    <main class="px-3 py-6">
+        <!-- Video Grid -->
+        <div class="video-grid" id="videoGrid">
             <!-- Videos will be loaded here -->
         </div>
         
+        <!-- Loading Indicator -->
         <div id="loadingIndicator" class="text-center py-12">
             <div class="loading-spinner mx-auto mb-4"></div>
-            <p class="text-lg font-medium">Loading amazing videos...</p>
-            <p class="text-gray-400 text-sm mt-1">Please wait a moment</p>
+            <p class="text-lg font-medium">Loading videos...</p>
+            <p class="text-gray-400 text-sm mt-1">Please wait</p>
         </div>
     </main>
 
-    <!-- Video Modal -->
-    <div id="videoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden p-4">
-        <div class="modal-content relative">
-            <button onclick="closeModal()" class="close-btn absolute -top-6 -right-6" aria-label="Close video">
+    <!-- Mobile-Optimized Video Modal -->
+    <div id="videoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="modal-content relative w-full h-full flex flex-col justify-center p-4">
+            <button 
+                onclick="closeModal()" 
+                class="close-btn absolute top-4 right-4 z-60" 
+                aria-label="Close video"
+                type="button"
+            >
                 <i class="fas fa-times text-white"></i>
             </button>
+            
             <div class="video-container">
                 <iframe 
                     id="modalIframe" 
@@ -60,11 +131,53 @@
                     frameborder="0" 
                     allowfullscreen
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
                 ></iframe>
+            </div>
+            
+            <!-- Mobile swipe indicator -->
+            <div class="swipe-indicator text-center mt-4 text-gray-400 text-sm">
+                <i class="fas fa-chevron-down"></i>
+                <p>Swipe down to close</p>
             </div>
         </div>
     </div>
 
+    <!-- Mobile Scripts -->
+    <script>
+        // Prevent zoom on iOS double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Optimize scroll performance
+        let ticking = false;
+        function updateScrollPosition() {
+            // Add scroll-based optimizations here
+            ticking = false;
+        }
+        
+        document.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollPosition);
+                ticking = true;
+            }
+        }, { passive: true });
+        
+        // Add loading class for better UX
+        document.documentElement.classList.add('loading');
+        window.addEventListener('load', () => {
+            document.documentElement.classList.remove('loading');
+        });
+    </script>
+    
+    <!-- Main JavaScript -->
     <script src="main.js"></script>
 </body>
 </html>
