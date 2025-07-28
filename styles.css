@@ -626,4 +626,108 @@ main {
     
     .search-bar input {
         padding: 12px 14px;
-        font-size: 16px
+        font-size: 16px;
+    }
+    
+    .install-banner {
+        left: 12px;
+        right: 12px;
+        bottom: 16px;
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+    .video-container {
+        height: 70vh;
+        max-height: none;
+    }
+    
+    .modal-content {
+        justify-content: flex-start;
+        padding-top: 40px;
+    }
+}
+
+/* Prevent zoom on inputs (iOS) */
+input[type="text"],
+input[type="search"] {
+    font-size: 16px !important;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Selection styling */
+::selection {
+    background: rgba(255, 140, 0, 0.3);
+    color: white;
+}
+
+/* Webkit selection styling */
+::-webkit-selection {
+    background: rgba(255, 140, 0, 0.3);
+    color: white;
+}
+
+/* Focus styles for accessibility */
+.search-btn:focus,
+.close-btn:focus,
+.video-card:focus {
+    outline: 3px solid #FF8C00;
+    outline-offset: 2px;
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-appearance: none) {
+    .search-bar input {
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 0;
+    }
+}
+
+/* Hardware acceleration for video cards */
+.video-card {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+/* PWA safe area support (iPhone X+) */
+@supports (padding: max(0px)) {
+    main {
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+    }
+    
+    nav {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+        padding-top: max(12px, env(safe-area-inset-top));
+    }
+    
+    .install-banner {
+        bottom: max(20px, env(safe-area-inset-bottom));
+    }
+}
+
+/* Fallback for browsers that don't support env() */
+@supports not (padding: max(0px)) {
+    main {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    
+    nav {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 12px;
+    }
+    
+    .install-banner {
+        bottom: 20px;
+    }
+}
