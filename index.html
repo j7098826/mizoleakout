@@ -19,18 +19,18 @@
     <a href="index.html" class="logo mb-2 sm:mb-0">
       <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 select-none pointer-events-none">
     </a>
-    <div class="search-bar flex w-full sm:w-auto max-w-md bg-gray-800 rounded overflow-hidden">
+    <div class="search-bar flex w-full sm:w-auto max-w-md bg-gray-800 rounded-lg overflow-hidden border border-gray-700 focus-within:border-[#FFA500] focus-within:ring-1 focus-within:ring-[#FFA500] transition-all duration-300">
       <input 
         type="text" 
         id="searchInput" 
         placeholder="Search videos..." 
-        class="bg-transparent px-3 py-2 text-white outline-none w-full placeholder-gray-400"
+        class="bg-transparent px-4 py-2 text-white outline-none w-full placeholder-gray-400"
       />
       <button 
         onclick="searchVideos()" 
-        class="bg-[#FFA500] px-4 text-white hover:bg-[#e69500] active:bg-[#cc8400] transition-all duration-200"
+        class="search-btn bg-gradient-to-br from-[#FFA500] to-[#FF8C00] px-5 text-white hover:from-[#FF8C00] hover:to-[#FFA500] active:bg-[#cc8400] transition-all duration-200 flex items-center justify-center"
       >
-        <i class="fas fa-search"></i>
+        <i class="fas fa-search text-lg"></i>
       </button>
     </div>
   </nav>
@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <!-- Using main.js instead of script.js -->
+  <!-- Main JavaScript -->
   <script src="main.js"></script>
 </body>
 </html>
