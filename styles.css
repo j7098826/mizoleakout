@@ -3,23 +3,63 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Video card hover effect */
+/* Search bar button styles */
+.search-btn {
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.search-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.search-btn i {
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.search-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* Video card styles */
 .video-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #111111;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
 }
 
 .video-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(255, 165, 0, 0.2);
+  border-color: #FFA500;
 }
 
 /* Thumbnail image */
 .video-thumb {
   position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
   overflow: hidden;
 }
 
 .video-thumb img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -41,33 +81,6 @@ body {
   font-size: 12px;
 }
 
-/* Close button */
-.close-btn {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #FFA500;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.close-btn:hover {
-  background: #e69500;
-  transform: scale(1.1);
-}
-
-/* Loading spinner */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.fa-spinner {
-  animation: spin 1s linear infinite;
-}
-
 /* Modal styles */
 #videoModal {
   backdrop-filter: blur(3px);
@@ -86,6 +99,34 @@ body {
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
 }
 
+.close-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFA500;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.close-btn:hover {
+  background: #e69500;
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .video-info {
@@ -93,5 +134,9 @@ body {
   }
   .video-title {
     font-size: 14px;
+  }
+  
+  .search-bar {
+    max-width: 100%;
   }
 }
