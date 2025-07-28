@@ -112,9 +112,10 @@
         </div>
     </main>
 
-    <!-- Mobile-Optimized Video Modal -->
+    <!-- Enhanced Video Modal -->
     <div id="videoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden" style="display: none;">
         <div class="modal-content relative w-full h-full flex flex-col justify-center p-4">
+            <!-- Enhanced Close Button -->
             <button 
                 onclick="closeModal()" 
                 class="close-btn absolute top-4 right-4 z-50" 
@@ -124,16 +125,61 @@
                 <i class="fas fa-times text-white"></i>
             </button>
             
+            <!-- Video Info Header -->
+            <div class="video-info-header absolute top-4 left-4 z-50 bg-black bg-opacity-75 rounded-lg p-3 max-w-sm">
+                <h3 id="modalVideoTitle" class="text-white font-semibold text-sm mb-1"></h3>
+                <p id="modalVideoViews" class="text-gray-300 text-xs"></p>
+            </div>
+            
+            <!-- Enhanced Video Container -->
             <div class="video-container">
-                <iframe 
-                    id="modalIframe" 
-                    class="w-full h-full" 
-                    frameborder="0" 
-                    allowfullscreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                ></iframe>
+                <div class="video-wrapper relative">
+                    <iframe 
+                        id="modalIframe" 
+                        class="w-full h-full rounded-lg" 
+                        frameborder="0" 
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    ></iframe>
+                    
+                    <!-- Video Controls Overlay -->
+                    <div class="video-controls absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 transition-opacity duration-300">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <button class="play-pause-btn text-white hover:text-orange-400 transition-colors">
+                                    <i class="fas fa-play text-lg"></i>
+                                </button>
+                                <div class="progress-bar bg-gray-600 rounded-full h-1 flex-1 mx-4">
+                                    <div class="progress-fill bg-orange-400 h-full rounded-full" style="width: 0%"></div>
+                                </div>
+                                <span class="time-display text-white text-sm">0:00 / 0:00</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="volume-btn text-white hover:text-orange-400 transition-colors">
+                                    <i class="fas fa-volume-up text-lg"></i>
+                                </button>
+                                <button class="fullscreen-btn text-white hover:text-orange-400 transition-colors">
+                                    <i class="fas fa-expand text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Actions -->
+            <div class="video-actions absolute bottom-4 left-4 right-4 flex justify-center space-x-4">
+                <button class="action-btn bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-heart mr-2"></i>Like
+                </button>
+                <button class="action-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-share mr-2"></i>Share
+                </button>
+                <button class="action-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-download mr-2"></i>Download
+                </button>
             </div>
         </div>
     </div>
