@@ -18,6 +18,42 @@ class MobileVideoPlayer {
         this.setupEventListeners();
         this.setupMobileOptimizations();
         this.addPullToRefresh();
+        this.enforceZIndexFix(); // CRITICAL: Force z-index fix
+    }
+
+    // CRITICAL: Emergency z-index enforcement
+    enforceZIndexFix() {
+        // Force navigation to stay on top
+        const nav = document.querySelector('nav');
+        if (nav) {
+            nav.style.zIndex = '9999';
+            nav.style.position = 'fixed';
+            nav.style.isolation = 'isolate';
+            nav.style.transform = 'translateZ(0)';
+        }
+
+        // Force main content to stay below
+        const main = document.querySelector('main');
+        if (main) {
+            main.style.zIndex = '1';
+            main.style.isolation = 'isolate';
+            main.style.paddingTop = window.innerWidth <= 768 ? '120px' : '160px';
+        }
+
+        // Monitor for any z-index violations
+        this.monitorZIndexViolations();
+    }
+
+    monitorZIndexViolations() {
+        // Check every 100ms for z-index violations
+        setInterval(() => {
+            const videoCards = document.querySelectorAll('.video-card');
+            videoCards.forEach(card => {
+                if (parseInt(getComputedStyle(card).zIndex) > 100) {
+                    card.style.zIndex = '1';
+                }
+            });
+        }, 100);
     }
 
     setupMobileOptimizations() {
@@ -53,7 +89,7 @@ class MobileVideoPlayer {
         // Add keyboard shortcuts for desktop
         document.addEventListener('keydown', (e) => {
             // Space bar to play/pause video
-            if (e.code === 'Space' && !this.modal.classList.contains('hidden')) {
+            if (e.code === 'Space' && this.modal && !this.modal.classList.contains('hidden')) {
                 e.preventDefault();
                 // Add video control logic here
             }
@@ -79,18 +115,17 @@ class MobileVideoPlayer {
             card.removeEventListener('mouseenter', this.desktopHoverEnter);
             card.removeEventListener('mouseleave', this.desktopHoverLeave);
             
-            // Add new listeners
-            card.addEventListener('mouseenter', this.desktopHoverEnter);
-            card.addEventListener('mouseleave', this.desktopHoverLeave);
+            // Add new listeners with z-index enforcement
+            card.addEventListener('mouseenter', (e) => {
+                e.target.style.transform = 'translateY(-6px) scale(1.02)';
+                e.target.style.zIndex = '2'; // Still below nav
+            });
+            
+            card.addEventListener('mouseleave', (e) => {
+                e.target.style.transform = '';
+                e.target.style.zIndex = '1';
+            });
         });
-    }
-
-    desktopHoverEnter(e) {
-        e.target.style.transform = 'translateY(-6px) scale(1.02)';
-    }
-
-    desktopHoverLeave(e) {
-        e.target.style.transform = '';
     }
 
     addPullToRefresh() {
@@ -117,7 +152,35 @@ class MobileVideoPlayer {
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 60;
+            z-index: 1500;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        `;
+        
+        document.body.appendChild(installBanner);
+        
+        installBanner.querySelector('.install-btn').addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                    installBanner.remove();
+                });
+            }
+        });
+        
+        installBanner.querySelector('.install-close').addEventListener('click', () => {
+            installBanner.remove();
+        });
+        
+        // Auto hide after 10 seconds
+        setTimeout(() => {
+            if (installBanner.parentNode) {
+                installBanner.remove();
+            }
+        }, 10000);
+    }
+});index: 60;
             transition: transform 0.3s ease;
             color: #FF8C00;
         `;
@@ -189,6 +252,10 @@ class MobileVideoPlayer {
             return;
         }
         
+        // CRITICAL: Ensure modal has maximum z-index
+        this.modal.style.zIndex = '99999';
+        this.modal.style.isolation = 'isolate';
+        
         // Close modal on tap outside
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) this.closeModal();
@@ -200,8 +267,10 @@ class MobileVideoPlayer {
             this.iframe.src = '';
             this.iframe.removeAttribute('src');
         }
-        this.modal.classList.add('hidden');
-        this.modal.style.display = 'none';
+        if (this.modal) {
+            this.modal.classList.add('hidden');
+            this.modal.style.display = 'none';
+        }
         document.body.style.overflow = 'auto';
     }
 
@@ -217,6 +286,10 @@ class MobileVideoPlayer {
         }
         
         console.log('Opening modal with URL:', videoUrl);
+        
+        // CRITICAL: Force modal z-index
+        this.modal.style.zIndex = '99999';
+        this.modal.style.isolation = 'isolate';
         
         // Update video info header
         if (videoData) {
@@ -332,6 +405,7 @@ class MobileVideoPlayer {
                 message.id = 'noResults';
                 message.className = 'text-center py-16';
                 message.style.gridColumn = '1 / -1';
+                message.style.zIndex = '1'; // Ensure it stays below nav
                 message.innerHTML = `
                     <div class="max-w-sm mx-auto">
                         <i class="fas fa-search text-5xl text-[#FF8C00] mb-6 opacity-60"></i>
@@ -356,6 +430,10 @@ class MobileVideoPlayer {
         card.setAttribute('tabindex', '0');
         card.setAttribute('role', 'button');
         card.setAttribute('aria-label', `Play ${video.title}`);
+        
+        // CRITICAL: Force low z-index on creation
+        card.style.zIndex = '1';
+        card.style.position = 'relative';
         
         const thumbnailUrl = video.thumbnail || 
             (video.id ? `https://img.youtube.com/vi/${video.id}/mqdefault.jpg` : 'https://via.placeholder.com/320x180');
@@ -390,13 +468,24 @@ class MobileVideoPlayer {
             }
         };
         
-        // Add touch feedback
+        // Add touch feedback with z-index control
         card.addEventListener('touchstart', () => {
             card.style.transform = 'scale(0.98)';
+            card.style.zIndex = '1'; // Keep low
         });
         
         card.addEventListener('touchend', () => {
             card.style.transform = '';
+            card.style.zIndex = '1'; // Keep low
+        });
+        
+        // Add hover with z-index control
+        card.addEventListener('mouseenter', () => {
+            card.style.zIndex = '2'; // Slightly higher but still below nav
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.zIndex = '1'; // Back to normal
         });
         
         card.addEventListener('click', playVideo);
@@ -456,6 +545,7 @@ class MobileVideoPlayer {
                         if (videoCard) {
                             videoCard.style.opacity = '0';
                             videoCard.style.transform = 'translateY(20px)';
+                            videoCard.style.zIndex = '1'; // Ensure low z-index
                             this.videoGrid.appendChild(videoCard);
                             
                             // Trigger animation
@@ -521,17 +611,17 @@ class MobileVideoPlayer {
         
         // Search button with mobile optimization
         const searchBtn = document.querySelector('.search-btn');
-        searchBtn.addEventListener('click', () => {
-            searchInput.blur(); // Hide keyboard
-            this.searchVideos();
-        });
-        
-        // Prevent double-tap zoom on buttons
-        [searchBtn, ...document.querySelectorAll('.close-btn')].forEach(btn => {
-            btn.addEventListener('touchend', (e) => {
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                searchInput.blur(); // Hide keyboard
+                this.searchVideos();
+            });
+            
+            // Prevent double-tap zoom on buttons
+            searchBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
             });
-        });
+        }
         
         // Make functions available globally
         window.searchVideos = () => this.searchVideos();
@@ -543,8 +633,12 @@ class MobileVideoPlayer {
                 // Recalculate layout after orientation change
                 if (this.modal && !this.modal.classList.contains('hidden')) {
                     const modalContent = this.modal.querySelector('.modal-content');
-                    modalContent.style.height = 'auto';
+                    if (modalContent) {
+                        modalContent.style.height = 'auto';
+                    }
                 }
+                // Re-enforce z-index fix after orientation change
+                this.enforceZIndexFix();
             }, 500);
         });
     }
@@ -574,6 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showInstallPrompt = function() {
         const installBanner = document.createElement('div');
         installBanner.className = 'install-banner';
+        installBanner.style.zIndex = '1500'; // Below nav and modal
         installBanner.innerHTML = `
             <div class="install-content">
                 <i class="fas fa-mobile-alt"></i>
@@ -591,32 +686,4 @@ document.addEventListener('DOMContentLoaded', () => {
             border-radius: 12px;
             padding: 16px;
             color: white;
-            z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.3s ease;
-        `;
-        
-        document.body.appendChild(installBanner);
-        
-        installBanner.querySelector('.install-btn').addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(() => {
-                    deferredPrompt = null;
-                    installBanner.remove();
-                });
-            }
-        });
-        
-        installBanner.querySelector('.install-close').addEventListener('click', () => {
-            installBanner.remove();
-        });
-        
-        // Auto hide after 10 seconds
-        setTimeout(() => {
-            if (installBanner.parentNode) {
-                installBanner.remove();
-            }
-        }, 10000);
-    }
-});
+            z-
