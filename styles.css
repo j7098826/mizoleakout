@@ -1,22 +1,40 @@
+/* General layout */
 body {
-  background-color: #0a0a0a;
-  color: white;
+  background-color: #000000; /* Deep black */
+  color: #ffffff;
   font-family: Arial, sans-serif;
 }
 
-.text-orange-custom {
-  color: #FFA500;
-}
-.bg-orange-custom {
-  background-color: #FFA500;
-}
-.border-orange-custom {
-  border-color: #FFA500;
+/* Prevent dragging/ghosting logo */
+.logo img {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
 }
 
+/* Search bar override */
+.search-bar input::placeholder {
+  color: #aaa;
+}
+
+.search-bar button {
+  background-color: #FFA500;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.search-bar button:hover {
+  background-color: #e69500;
+}
+
+.search-bar button:active {
+  background-color: #cc8400;
+}
+
+/* Video card layout */
 .video-card {
-  background-color: #1f1f1f;
-  border-radius: 0.5rem;
+  background-color: #111111;
+  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   border: 2px solid transparent;
@@ -27,48 +45,100 @@ body {
   border-color: #FFA500;
 }
 
+/* Thumbnail image */
+.video-thumb {
+  position: relative;
+}
+
 .video-thumb img {
   width: 100%;
-  height: 210px;
+  height: 224px;
   object-fit: cover;
+  display: block;
 }
 
-.video-title {
-  font-weight: bold;
-}
-
+/* Duration label */
 .duration {
   position: absolute;
   bottom: 6px;
   right: 6px;
   background: rgba(0, 0, 0, 0.75);
-  color: white;
+  color: #ffffff;
   font-size: 0.75rem;
   padding: 2px 6px;
   border-radius: 4px;
 }
 
-.logo img {
-  -webkit-user-drag: none;
-  user-select: none;
-  pointer-events: none;
-  image-rendering: crisp-edges;
+/* Video title */
+.video-title {
+  font-size: 0.95rem;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
 }
 
+/* Modal overlay */
 #videoModal {
   backdrop-filter: blur(3px);
 }
 
+/* Modal content */
 .modal-content {
   width: 90vw;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #FFA500;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: 60;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #e69500;
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Modal video wrapper */
+.video-container {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+}
+
+/* Responsive tweaks */
 @media (max-width: 768px) {
   .modal-content {
     width: 95vw;
     margin: 20px auto;
+  }
+
+  .close-btn {
+    top: -12px;
+    right: -12px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .video-thumb img {
+    height: 200px;
   }
 }
 
@@ -76,5 +146,9 @@ body {
   .modal-content {
     width: 98vw;
     margin: 10px auto;
+  }
+
+  .video-thumb img {
+    height: 180px;
   }
 }
