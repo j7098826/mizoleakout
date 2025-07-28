@@ -2,12 +2,12 @@
   "name": "Zo Hub - Video Platform",
   "short_name": "Zo Hub",
   "description": "Watch amazing videos on your mobile device",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#FF8C00",
   "orientation": "portrait-primary",
-  "scope": "/",
+  "scope": "./",
   "categories": ["entertainment", "video", "media"],
   "lang": "en",
   "icons": [
@@ -29,7 +29,7 @@
       "name": "Search Videos",
       "short_name": "Search",
       "description": "Search for videos",
-      "url": "/?search=true",
+      "url": "./?search=true",
       "icons": [
         {
           "src": "logo.png",
