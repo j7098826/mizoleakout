@@ -25,25 +25,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Mobile optimizations -->
+    <!-- CRITICAL CSS for above-the-fold content -->
     <style>
-        /* Critical CSS for above-the-fold content */
+        /* EMERGENCY Z-INDEX FIX */
+        * {
+            position: relative;
+        }
+        
         body { 
             background: #000; 
             color: white; 
             margin: 0; 
             font-family: system-ui, -apple-system, sans-serif;
         }
+        
         nav { 
-            background: rgba(0,0,0,0.98); 
-            position: fixed; 
-            top: 0; 
-            width: 100%; 
-            z-index: 1000; /* Fixed z-index */
+            background: rgba(0,0,0,0.98) !important; 
+            position: fixed !important; 
+            top: 0 !important; 
+            width: 100% !important; 
+            z-index: 9999 !important; /* MAXIMUM Z-INDEX */
+            transform: translateZ(0) !important; /* Force GPU layer */
+            -webkit-transform: translateZ(0) !important;
         }
+        
         main { 
-            padding-top: 140px; /* Increased padding */
+            padding-top: 160px !important; /* INCREASED PADDING */
+            z-index: 1 !important; /* MUCH LOWER THAN NAV */
+            isolation: isolate !important; /* CREATE NEW STACKING CONTEXT */
         }
+        
+        .video-card {
+            z-index: 1 !important; /* BELOW NAV */
+        }
+        
+        .video-card:hover {
+            z-index: 2 !important; /* STILL BELOW NAV */
+        }
+        
         .loading-spinner { 
             border: 3px solid rgba(255,140,0,0.3); 
             border-top-color: #FF8C00; 
@@ -52,12 +71,15 @@
             height: 32px; 
             animation: spin 1s linear infinite; 
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
     </style>
 </head>
 <body class="text-white min-h-screen">
     <!-- Mobile Navigation -->
-    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-4 py-3 fixed top-0 left-0 right-0 z-40 shadow-2xl">
+    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-4 py-3 fixed top-0 left-0 right-0 shadow-2xl">
         <a href="#" class="logo mb-2 sm:mb-0" aria-label="Zo Hub Home">
             <img src="logo.png" alt="Zo Hub Logo" class="h-12 sm:h-16 select-none pointer-events-none" 
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -101,7 +123,7 @@
     <main class="px-3 py-6">
         <!-- Video Grid -->
         <div class="video-grid" id="videoGrid">
-            <!-- Videos will be loaded here -->
+            <!-- Videos will be loaded here by JavaScript -->
         </div>
         
         <!-- Loading Indicator -->
