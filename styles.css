@@ -1,71 +1,106 @@
+/* Core layout colors */
 body {
-  background-color: #111;
-  color: #fff;
+  background-color: #000000; /* Deep black */
+  color: #ffffff;
   font-family: Arial, sans-serif;
 }
 
+/* Custom orange brand */
+.text-orange-custom {
+  color: #FF7A00;
+}
+.bg-orange-custom {
+  background-color: #FF7A00;
+}
+.border-orange-custom {
+  border-color: #FF7A00;
+}
+.hover\:text-orange-custom:hover {
+  color: #FF7A00;
+}
+
+/* Logo drag prevention */
+.logo img {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Navbar and tab styling */
+.navbar {
+  background-color: #000000;
+}
+.nav-tabs {
+  background-color: #0a0a0a; /* Slight contrast */
+}
+
+/* Search input */
+.search-bar input {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+.search-bar button {
+  background-color: #FF7A00;
+}
+.search-bar button:hover {
+  background-color: #e66900;
+}
+
+/* Video Card */
+.video-card {
+  background-color: #111111;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.video-card:hover {
+  border-color: #FF7A00;
+}
+
+/* Thumbnail */
 .video-thumb {
   position: relative;
 }
-
 .video-thumb img {
   width: 100%;
-  height: 150px;
+  height: 170px;
   object-fit: cover;
 }
-
 .duration {
   position: absolute;
   bottom: 6px;
   right: 6px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   color: #fff;
   font-size: 0.75rem;
   padding: 2px 6px;
   border-radius: 4px;
 }
 
-.video-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(255, 153, 0, 0.3); /* Updated from magenta to orange glow */
-  transition: all 0.3s ease;
+/* Title + stats */
+.video-title {
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+.video-stats {
+  color: #999999;
+  font-size: 0.8rem;
 }
 
+/* Modal */
 #videoModal {
   backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.9);
 }
-
 .modal-content {
   width: 90vw;
   max-width: 1200px;
   margin: 0 auto;
 }
-
-.close-btn {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  background: rgba(255, 153, 0, 0.9); /* Updated */
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 60;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-.close-btn:hover {
-  background: rgba(255, 102, 0, 1); /* More vivid orange on hover */
-  transform: scale(1.15);
-  border-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4); /* Orange shadow on hover */
-}
-
 .video-container {
   width: 100%;
   aspect-ratio: 16/9;
@@ -74,6 +109,30 @@ body {
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
 }
 
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: rgba(255, 122, 0, 0.95);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+.close-btn:hover {
+  background: rgba(255, 90, 0, 1);
+  transform: scale(1.15);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .modal-content {
     width: 95vw;
