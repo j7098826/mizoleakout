@@ -1,7 +1,14 @@
+/* CRITICAL Z-INDEX FIX: Reset all positioning */
+* {
+    position: relative;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #000000;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
     /* Prevent zooming on input focus */
     -webkit-text-size-adjust: 100%;
     /* Smooth scrolling on iOS */
@@ -10,28 +17,36 @@ body {
     overflow-x: hidden;
 }
 
-/* FIXED: Mobile-first navigation with proper z-index */
+/* CRITICAL FIX: Maximum z-index navigation with new stacking context */
 nav {
-    background: rgba(0, 0, 0, 0.98);
+    background: rgba(0, 0, 0, 0.98) !important;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 140, 0, 0.2);
-    /* CRITICAL FIX: Higher z-index to stay above content */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000; /* Increased from 50 to 1000 */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+    /* CRITICAL: Maximum z-index and proper positioning */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important; /* MAXIMUM Z-INDEX */
     padding: 12px 16px;
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
     box-sizing: border-box;
+    /* Force hardware acceleration and new stacking context */
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    will-change: transform;
+    isolation: isolate;
+    min-height: 80px;
 }
 
 /* Mobile logo optimization */
 .logo {
     margin-bottom: 8px;
+    z-index: inherit;
 }
 
 .logo svg {
@@ -55,6 +70,7 @@ nav {
     align-items: center;
     /* Prevent zoom on iOS */
     transform: translate3d(0, 0, 0);
+    z-index: inherit;
 }
 
 .search-bar input {
@@ -99,17 +115,24 @@ nav {
     background: linear-gradient(45deg, #FF6B00, #E55A00);
 }
 
-/* FIXED: Mobile-optimized main content with proper spacing */
+/* CRITICAL FIX: Main content with proper z-index and spacing */
 main {
-    padding: 140px 12px 20px 12px; /* CRITICAL FIX: Increased from 120px to 140px */
+    /* CRITICAL: Much higher padding to clear fixed nav */
+    padding: 160px 12px 20px 12px !important;
     min-height: 100vh;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    z-index: 1; /* Lower than nav to ensure proper stacking */
+    /* CRITICAL: Lower z-index than nav */
+    z-index: 1 !important;
+    /* CRITICAL: Create new stacking context */
+    isolation: isolate !important;
+    /* Force hardware acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
 }
 
-/* FIXED: Mobile-first video grid with proper z-index */
+/* CRITICAL FIX: Video grid with proper stacking */
 .video-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -117,7 +140,10 @@ main {
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    z-index: 1; /* Below nav but above background */
+    /* CRITICAL: Below nav but above background */
+    z-index: 1 !important;
+    /* CRITICAL: Ensure it stays in its own layer */
+    isolation: isolate !important;
 }
 
 /* Responsive breakpoints for mobile-first */
@@ -127,7 +153,7 @@ main {
         gap: 14px;
     }
     main {
-        padding: 140px 16px 20px 16px; /* Maintained increased padding */
+        padding: 160px 16px 20px 16px !important;
     }
 }
 
@@ -135,6 +161,12 @@ main {
     .video-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 16px;
+    }
+    nav {
+        min-height: 90px;
+    }
+    main {
+        padding: 140px 16px 20px 16px !important;
     }
 }
 
@@ -152,7 +184,7 @@ main {
     }
 }
 
-/* FIXED: Mobile-optimized video cards with proper z-index layering */
+/* CRITICAL FIX: Video cards with forced low z-index */
 .video-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     background-color: #111111;
@@ -161,7 +193,8 @@ main {
     cursor: pointer;
     border: 2px solid transparent;
     position: relative;
-    z-index: 1; /* Below nav but properly stacked */
+    /* CRITICAL: Force low z-index, never above nav */
+    z-index: 1 !important;
     /* Optimize for touch */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -170,8 +203,12 @@ main {
     user-select: none;
     /* Optimize performance */
     will-change: transform;
-    /* Desktop hover effects */
     min-height: 280px;
+    /* Prevent z-index escalation */
+    max-width: 100%;
+    /* Force hardware acceleration */
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
 }
 
 /* Mobile touch feedback */
@@ -180,11 +217,13 @@ main {
     transition: transform 0.1s ease;
 }
 
+/* CRITICAL: Hover state still below nav */
 .video-card:hover {
     transform: translateY(-6px) scale(1.02);
     box-shadow: 0 12px 35px rgba(255, 140, 0, 0.3);
     border-color: #FF8C00;
-    z-index: 10; /* Higher when hovered, but still below nav */
+    /* CRITICAL: Even when hovered, stay below nav */
+    z-index: 2 !important;
 }
 
 /* Mobile-optimized thumbnails */
@@ -193,7 +232,7 @@ main {
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     overflow: hidden;
     border-radius: 8px 8px 0 0;
-    z-index: 1; /* Ensure thumbnails are visible */
+    z-index: 1;
 }
 
 .video-thumb img {
@@ -207,7 +246,7 @@ main {
     /* Optimize image rendering on mobile */
     -webkit-image-rendering: -webkit-optimize-contrast;
     image-rendering: -webkit-optimize-contrast;
-    z-index: 1; /* Ensure images are visible */
+    z-index: 1;
 }
 
 .video-card:hover .video-thumb img {
@@ -228,14 +267,14 @@ main {
     font-weight: 600;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 3; /* Above thumbnail */
+    z-index: 3;
 }
 
 /* Mobile-optimized video info */
 .video-info {
     padding: 12px 14px 16px 14px;
     position: relative;
-    z-index: 2; /* Above thumbnail */
+    z-index: 2;
 }
 
 .video-title {
@@ -267,23 +306,28 @@ main {
     gap: 4px;
 }
 
-/* FIXED: Enhanced Video Modal with highest z-index */
+/* CRITICAL FIX: Modal with maximum possible z-index */
 #videoModal {
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     background: rgba(0, 0, 0, 0.98);
-    /* Prevent scrolling behind modal on mobile */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    /* CRITICAL: Maximum z-index for modal */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
     overflow: hidden;
-    z-index: 2000; /* CRITICAL FIX: Highest z-index for modal */
-    /* Desktop modal optimization */
+    z-index: 99999 !important; /* MAXIMUM POSSIBLE Z-INDEX */
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Force new stacking context */
+    isolation: isolate !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
 }
 
 /* Video Info Header */
@@ -340,13 +384,6 @@ main {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Enhanced Close Button */
-.close-btn {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 .modal-content {
     width: 100vw;
     height: 100vh;
@@ -362,6 +399,8 @@ main {
     height: 80vh;
     border-radius: 16px;
     overflow: hidden;
+    position: relative;
+    z-index: inherit;
 }
 
 @keyframes modalSlideUp {
@@ -387,7 +426,7 @@ main {
     min-height: 400px;
 }
 
-/* FIXED: Mobile-optimized close button with proper z-index */
+/* CRITICAL FIX: Close button with proper z-index */
 .close-btn {
     width: 44px;
     height: 44px;
@@ -402,7 +441,7 @@ main {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 2100; /* Above modal content */
+    z-index: 1; /* Inherit from modal */
     /* Optimize for touch */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -446,7 +485,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 60;
+    z-index: 60; /* Below nav */
     transition: transform 0.3s ease;
     color: #FF8C00;
 }
@@ -478,7 +517,7 @@ main {
     border-radius: 12px;
     padding: 16px;
     color: white;
-    z-index: 1500;
+    z-index: 1500; /* Below modal, below nav */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     animation: slideUp 0.3s ease;
 }
@@ -541,6 +580,7 @@ main {
     text-align: center;
     padding: 40px 20px;
     display: block;
+    z-index: inherit;
 }
 
 /* Desktop optimizations */
@@ -551,6 +591,7 @@ main {
 .is-desktop .video-card:hover {
     transform: translateY(-8px) scale(1.03);
     box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4);
+    z-index: 2 !important; /* Still below nav */
 }
 
 .is-desktop .search-bar {
@@ -590,9 +631,10 @@ main {
         padding: 16px;
     }
     
-    /* FIXED: Optimize navbar for small screens with proper spacing */
+    /* CRITICAL: Optimize navbar for small screens */
     nav {
         padding: 10px 12px;
+        min-height: 100px;
     }
     
     .logo svg {
@@ -600,16 +642,16 @@ main {
         height: 50px;
     }
     
-    /* FIXED: Adjust main padding for smaller nav */
+    /* CRITICAL: Adjust main padding for smaller nav */
     main {
-        padding-top: 120px; /* Slightly reduced for smaller nav */
+        padding-top: 120px !important;
     }
 }
 
 /* Extra small mobile devices */
 @media (max-width: 480px) {
     main {
-        padding: 110px 8px 16px 8px;
+        padding: 110px 8px 16px 8px !important;
     }
     
     .video-grid {
@@ -690,17 +732,11 @@ html {
     }
 }
 
-/* Hardware acceleration for video cards */
-.video-card {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-}
-
 /* PWA safe area support (iPhone X+) */
 @supports (padding: max(0px)) {
     main {
-        padding-left: max(12px, env(safe-area-inset-left));
-        padding-right: max(12px, env(safe-area-inset-right));
+        padding-left: max(12px, env(safe-area-inset-left)) !important;
+        padding-right: max(12px, env(safe-area-inset-right)) !important;
     }
     
     nav {
@@ -717,8 +753,8 @@ html {
 /* Fallback for browsers that don't support env() */
 @supports not (padding: max(0px)) {
     main {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
     }
     
     nav {
@@ -730,4 +766,42 @@ html {
     .install-banner {
         bottom: 20px;
     }
+}
+
+/* CRITICAL: Emergency z-index overrides */
+nav,
+nav * {
+    z-index: 9999 !important;
+}
+
+#videoModal,
+#videoModal * {
+    z-index: 99999 !important;
+}
+
+.video-card,
+.video-card *,
+.video-grid,
+.video-grid *,
+main,
+main * {
+    z-index: 1 !important;
+}
+
+.video-card:hover,
+.video-card:hover * {
+    z-index: 2 !important;
+}
+
+/* Force stacking context isolation */
+nav {
+    isolation: isolate !important;
+}
+
+main {
+    isolation: isolate !important;
+}
+
+#videoModal {
+    isolation: isolate !important;
 }
