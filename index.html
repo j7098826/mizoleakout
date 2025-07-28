@@ -1,11 +1,9 @@
-<!-- ✅ index.html (corrected) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zo Hub</title>
-
   <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,46 +14,52 @@
     .bg-orange-custom { background-color: #FF9900; }
     .border-orange-custom { border-color: #FF9900; }
     .hover\:text-orange-custom:hover { color: #FF9900; }
+    .animate-fadeInZoom {
+      animation: fadeInZoom 0.3s ease-out;
+    }
+    @keyframes fadeInZoom {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body class="bg-black text-white">
-
   <!-- Navbar -->
-  <div class="navbar flex justify-between items-center bg-black px-6 py-4">
-    <a href="#" class="logo">
-      <img src="logo.png" alt="Zo Hub Logo" class="h-28 sm:h-32">
+  <header class="flex flex-col sm:flex-row sm:justify-between items-center bg-black px-4 py-3 sm:px-6 sm:py-4">
+    <a href="#" class="mb-3 sm:mb-0">
+      <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 mx-auto">
     </a>
-    <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
-      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
+    <div class="w-full sm:w-auto flex bg-gray-800 rounded overflow-hidden">
+      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white flex-grow">
       <button onclick="searchVideos()" class="bg-orange-custom px-4 text-white"><i class="fas fa-search"></i></button>
     </div>
-  </div>
+  </header>
 
-  <!-- Navigation Tabs -->
-  <div class="nav-tabs flex bg-gray-900 px-6 py-3 space-x-6">
+  <!-- Tabs -->
+  <nav class="flex justify-center sm:justify-start bg-gray-900 px-4 py-2 space-x-4 sm:space-x-6 text-sm">
     <a href="#" class="text-orange-custom font-semibold">Home</a>
-    <a href="#" class="text-white hover:text-orange-custom">Popular Videos</a>
-  </div>
+    <a href="#" class="text-white hover:text-orange-custom">Popular</a>
+    <a href="#" class="text-white hover:text-orange-custom">My List</a>
+  </nav>
 
-  <!-- Video Section -->
-  <div class="video-section px-6 py-4">
+  <!-- Videos -->
+  <main class="px-4 py-5">
     <h2 class="text-lg font-bold border-l-4 border-orange-custom pl-3 mb-4">Latest Videos</h2>
-    <div class="video-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid"></div>
-  </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="videoGrid"></div>
+  </main>
 
   <!-- Video Modal -->
-  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="modal-content relative max-w-5xl w-full">
+  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden p-4">
+    <div class="modal-content relative w-full max-w-4xl max-h-[90vh]">
       <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close Video">
         <i class="fas fa-times text-white text-2xl"></i>
       </div>
-      <div class="video-container aspect-w-16 aspect-h-9">
-        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe id="modalIframe" class="w-full h-full rounded" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
       </div>
     </div>
   </div>
 
-  <!-- Main JS -->
   <script src="main.js"></script>
 </body>
 </html>
