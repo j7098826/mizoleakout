@@ -57,7 +57,7 @@
 </head>
 <body class="text-white min-h-screen">
     <!-- Mobile Navigation -->
-    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-4 py-3 sticky top-0 z-40 shadow-2xl">
+    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-4 py-3 fixed top-0 left-0 right-0 z-40 shadow-2xl">
         <a href="#" class="logo mb-2 sm:mb-0" aria-label="Zo Hub Home">
             <img src="logo.png" alt="Zo Hub Logo" class="h-12 sm:h-16 select-none pointer-events-none" 
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -113,11 +113,11 @@
     </main>
 
     <!-- Mobile-Optimized Video Modal -->
-    <div id="videoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div id="videoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden" style="display: none;">
         <div class="modal-content relative w-full h-full flex flex-col justify-center p-4">
             <button 
                 onclick="closeModal()" 
-                class="close-btn absolute top-4 right-4 z-60" 
+                class="close-btn absolute top-4 right-4 z-50" 
                 aria-label="Close video"
                 type="button"
             >
