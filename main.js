@@ -5,8 +5,6 @@ class MobileVideoPlayer {
         this.allVideos = [];
         this.videoGrid = document.getElementById('videoGrid');
         this.loadingIndicator = document.getElementById('loadingIndicator');
-        this.touchStartY = 0;
-        this.touchEndY = 0;
         this.isLoading = false;
         this.currentPage = 1;
         this.videosPerPage = 10;
@@ -142,49 +140,6 @@ class MobileVideoPlayer {
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) this.closeModal();
         });
-
-        // Add swipe to close functionality
-        this.setupSwipeToClose();
-    }
-
-    setupSwipeToClose() {
-        let startY = 0;
-        let currentY = 0;
-        let isDragging = false;
-
-        this.modal.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
-            isDragging = true;
-        });
-
-        this.modal.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            currentY = e.touches[0].clientY;
-            const diff = currentY - startY;
-            
-            if (diff > 0) { // Only allow downward swipe
-                const modalContent = this.modal.querySelector('.modal-content');
-                modalContent.style.transform = `translateY(${diff}px)`;
-                modalContent.style.opacity = Math.max(0.5, 1 - (diff / 300));
-            }
-        });
-
-        this.modal.addEventListener('touchend', () => {
-            if (!isDragging) return;
-            
-            const diff = currentY - startY;
-            const modalContent = this.modal.querySelector('.modal-content');
-            
-            if (diff > 150) { // Close if swiped down enough
-                this.closeModal();
-            } else {
-                // Snap back
-                modalContent.style.transform = 'translateY(0)';
-                modalContent.style.opacity = '1';
-            }
-            
-            isDragging = false;
-        });
     }
 
     closeModal() {
@@ -194,11 +149,6 @@ class MobileVideoPlayer {
         }
         this.modal.classList.add('hidden');
         document.body.style.overflow = 'auto';
-        
-        // Reset modal content position
-        const modalContent = this.modal.querySelector('.modal-content');
-        modalContent.style.transform = 'translateY(0)';
-        modalContent.style.opacity = '1';
     }
 
     openModal(videoUrl) {
