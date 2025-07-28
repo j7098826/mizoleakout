@@ -11,7 +11,7 @@
     {
       "url": "https://your-worker-domain.com/proxy/videos/music1.mp4",
       "title": "Chill Beats Mix",
-      "thumbnail": "https://example.com/thumbnails/chillbeats.jpg",
+      "thumbnail": "https://via.placeholder.com/320x180/4F46E5/FFFFFF?text=Chill+Beats",
       "duration": "1:00:00",
       "views": "540K",
       "uploadDate": "2024-01-15"
@@ -27,7 +27,7 @@
     {
       "url": "https://your-worker-domain.com/proxy/videos/tutorial1.mp4",
       "title": "Learn JavaScript Basics",
-      "thumbnail": "https://example.com/thumbnails/js-basics.jpg",
+      "thumbnail": "https://via.placeholder.com/320x180/10B981/FFFFFF?text=JS+Tutorial",
       "duration": "15:45",
       "views": "1.1M",
       "uploadDate": "2023-05-10"
@@ -51,7 +51,7 @@
     {
       "url": "https://your-worker-domain.com/proxy/videos/documentary1.mp4",
       "title": "Secrets of the Ocean",
-      "thumbnail": "https://example.com/thumbnails/ocean.jpg",
+      "thumbnail": "https://via.placeholder.com/320x180/0EA5E9/FFFFFF?text=Ocean+Doc",
       "duration": "22:10",
       "views": "1.5M",
       "uploadDate": "2023-08-07"
@@ -83,7 +83,7 @@
     {
       "url": "https://your-worker-domain.com/proxy/videos/scifi.mp4",
       "title": "Sci-Fi Short Film",
-      "thumbnail": "https://example.com/thumbnails/scifi.jpg",
+      "thumbnail": "https://via.placeholder.com/320x180/8B5CF6/FFFFFF?text=Sci-Fi+Film",
       "duration": "12:20",
       "views": "1.8M",
       "uploadDate": "2022-02-15"
@@ -123,7 +123,7 @@
     {
       "url": "https://your-worker-domain.com/proxy/videos/dev-talk.mp4",
       "title": "Advanced Python: Generators Deep Dive",
-      "thumbnail": "https://example.com/thumbnails/python.jpg",
+      "thumbnail": "https://via.placeholder.com/320x180/F59E0B/FFFFFF?text=Python+Tutorial",
       "duration": "19:50",
       "views": "220K",
       "uploadDate": "2024-02-18"
@@ -155,7 +155,7 @@
     {
       "url": "https://your-worker-domain.com/proxy/videos/random-clip.mp4",
       "title": "Funny Compilation 2024",
-      "thumbnail": "https://example.com/thumbnails/funny.jpg",
+      "thumbnail": "https://via.placeholder.com/320x180/EF4444/FFFFFF?text=Funny+Clips",
       "duration": "7:00",
       "views": "320K",
       "uploadDate": "2024-06-18"
