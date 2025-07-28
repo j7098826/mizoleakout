@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zo Hub</title>
   <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
-
+  
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-black text-white">
-
+<body class="bg-black text-white min-h-screen">
   <!-- Navbar -->
-  <div class="navbar flex flex-col sm:flex-row sm:justify-between items-center bg-black px-4 py-4">
+  <nav class="flex flex-col sm:flex-row sm:justify-between items-center bg-black px-4 py-4 sticky top-0 z-40 shadow-lg">
     <a href="index.html" class="logo mb-2 sm:mb-0">
-      <img src="logo.png" alt="Zo Hub Logo" class="h-20 select-none pointer-events-none">
+      <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 select-none pointer-events-none">
     </a>
     <div class="search-bar flex w-full sm:w-auto max-w-md bg-gray-800 rounded overflow-hidden">
       <input 
@@ -30,36 +29,37 @@
       <button 
         onclick="searchVideos()" 
         class="bg-[#FFA500] px-4 text-white hover:bg-[#e69500] active:bg-[#cc8400] transition-all duration-200"
-        style="min-width: 3rem;"
       >
         <i class="fas fa-search"></i>
       </button>
     </div>
-  </div>
+  </nav>
 
-  <!-- Video Grid -->
-  <div class="px-4 py-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="videoGrid">
-      <!-- JS Injected Cards -->
+  <!-- Main Content -->
+  <main class="px-4 py-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" id="videoGrid">
+      <!-- Videos will be loaded here -->
     </div>
-  </div>
+    
+    <div id="loadingIndicator" class="text-center py-8">
+      <i class="fas fa-spinner fa-spin text-2xl text-[#FFA500]"></i>
+      <p class="mt-2">Loading videos...</p>
+    </div>
+  </main>
 
   <!-- Video Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="modal-content relative max-w-5xl w-full mx-4">
-      <div class="absolute -top-4 -right-4 cursor-pointer" onclick="closeModal()" title="Close Video">
-        <div class="close-btn">
-          <i class="fas fa-times text-white text-xl"></i>
-        </div>
-      </div>
+    <div class="modal-content relative w-full max-w-6xl mx-4">
+      <button onclick="closeModal()" class="close-btn absolute -top-4 -right-4">
+        <i class="fas fa-times"></i>
+      </button>
       <div class="video-container">
-        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen 
+        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
     </div>
   </div>
 
-  <!-- Main JS -->
   <script src="script.js"></script>
 </body>
 </html>
