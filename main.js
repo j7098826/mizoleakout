@@ -236,7 +236,7 @@ class MobileVideoPlayer {
         const playVideo = () => {
             const videoUrl = video.id 
                 ? `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1` 
-                : video.url;
+                : video.videoUrl;
             this.openModal(videoUrl);
             
             // Add haptic feedback
@@ -393,7 +393,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add service worker for offline support (optional)
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(console.error);
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Silently fail if service worker doesn't exist
+        });
     }
     
     // Add iOS PWA prompt
