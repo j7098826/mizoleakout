@@ -10,7 +10,7 @@ function closeModal() {
 
 function openModal(videoUrl) {
   if (iframe && modal) {
-    iframe.src = videoUrl; // can be YouTube embed or proxy URL
+    iframe.src = videoUrl;
     modal.classList.remove("hidden");
     document.body.style.overflow = 'hidden';
   }
@@ -58,13 +58,13 @@ function filterByCategory(category) {
     }
   });
 
-  // Update active tab styling if your nav-tabs use categories dynamically
+  // Update active tab styling
   const tabs = document.querySelectorAll(".nav-tabs a");
   tabs.forEach(tab => {
-    tab.classList.remove("text-pink-500", "font-semibold");
+    tab.classList.remove("text-orange-custom", "font-semibold");
     tab.classList.add("text-white");
     if (tab.dataset.category === category) {
-      tab.classList.add("text-pink-500", "font-semibold");
+      tab.classList.add("text-orange-custom", "font-semibold");
       tab.classList.remove("text-white");
     }
   });
@@ -82,7 +82,7 @@ function createVideoCard(video) {
            class="w-full h-40 object-cover"
            onerror="this.src='https://via.placeholder.com/320x180/374151/9CA3AF?text=Video+Thumbnail'">
       <span class="duration absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">${video.duration || ''}</span>
-      <div class="category-badge absolute top-2 left-2 bg-pink-600 text-white text-xs px-2 py-1 rounded">${video.category}</div>
+      <div class="category-badge absolute top-2 left-2 bg-orange-custom text-white text-xs px-2 py-1 rounded">${video.category}</div>
     </div>
     <div class="video-info p-3">
       <div class="video-title text-sm font-bold mb-2 line-clamp-2 text-white leading-tight">${video.title}</div>
@@ -94,11 +94,9 @@ function createVideoCard(video) {
   `;
 
   card.onclick = () => {
-    // For YouTube videos
     if (video.id) {
       openModal(`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1&autoplay=1&vq=hd1080`);
     } else if (video.url) {
-      // For proxied or cloudflare R2 hosted videos
       openModal(video.url);
     }
   };
@@ -124,17 +122,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   iframe = document.getElementById("modalIframe");
 
   try {
-    // Fetch your videos.json from your server or proxied endpoint
     const response = await fetch('videos.json');
     const data = await response.json();
 
-    // flatten videos with categories
     allVideos = data.playlists.flatMap(playlist =>
       playlist.videos.map(video => ({ ...video, category: playlist.name }))
     );
 
     const videoGrid = document.getElementById("videoGrid");
-    videoGrid.innerHTML = ''; // Clear existing
+    videoGrid.innerHTML = '';
 
     allVideos.forEach(video => {
       const card = createVideoCard(video);
@@ -152,17 +148,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>`;
   }
 
-  // Keyboard: close modal on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Live search
   document.getElementById("searchInput").addEventListener("input", (e) => {
     if (e.target.value.length > 2 || e.target.value.length === 0) {
       searchVideos();
     }
   });
-
-  // Optional: you can add category filter logic on your nav tabs if you add data-category attributes to those links
 });
