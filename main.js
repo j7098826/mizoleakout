@@ -65,7 +65,7 @@ class VideoPlayer {
         message.id = 'noResults';
         message.className = 'col-span-full text-center py-12';
         message.innerHTML = `
-          <i class="fas fa-search text-4xl text-[#FFA500] mb-4"></i>
+          <i class="fas fa-search text-4xl text-orange-500 mb-4"></i>
           <h3 class="text-xl font-bold mb-2">No videos found</h3>
           <p class="text-gray-400">Try different search terms</p>
         `;
@@ -81,15 +81,15 @@ class VideoPlayer {
     card.className = 'video-card';
     
     const thumbnailUrl = video.thumbnail || 
-      (video.id ? `https://img.youtube.com/vi/${video.id}/mqdefault.jpg` : 'https://via.placeholder.com/320x180');
+      (video.id ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg` : 'https://via.placeholder.com/480x270/374151/9CA3AF?text=Thumbnail+Missing');
     
     card.innerHTML = `
-      <div class="video-thumb">
+      <div class="video-thumb-container">
         <img src="${thumbnailUrl}" 
              alt="${video.title}"
              loading="lazy"
-             class="w-full h-full object-cover"
-             onerror="this.src='https://via.placeholder.com/320x180/374151/9CA3AF?text=Thumbnail+Missing'">
+             class="video-thumb"
+             onerror="this.src='https://via.placeholder.com/480x270/374151/9CA3AF?text=Thumbnail+Missing'">
         <span class="duration text-white">${video.duration || 'N/A'}</span>
       </div>
       <div class="video-info p-3">
@@ -164,15 +164,6 @@ class VideoPlayer {
     
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') this.closeModal();
-    });
-    
-    // Add search button animation
-    const searchBtn = document.querySelector('.search-btn');
-    searchBtn.addEventListener('click', () => {
-      searchBtn.classList.add('animate-pulse');
-      setTimeout(() => {
-        searchBtn.classList.remove('animate-pulse');
-      }, 300);
     });
     
     // Make functions available globally
