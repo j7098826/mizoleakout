@@ -4,85 +4,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zo Hub</title>
-  <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
-
-  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-    .text-orange-custom {
-      color: #FF9900;
+    :root {
+      --orange: #FFA31A;
+      --bg-dark: #1B1B1B;
     }
-    .bg-orange-custom {
-      background-color: #FF9900;
-    }
-    .border-orange-custom {
-      border-color: #FF9900;
-    }
-    .hover\:text-orange-custom:hover {
-      color: #FF9900;
-    }
-
+    .bg-dark { background-color: var(--bg-dark); }
+    .text-orange { color: var(--orange); }
+    .btn-orange { background-color: var(--orange); }
     .video-card {
-      background-color: #1f2937;
+      background-color: #2c2c2c;
       border-radius: 0.5rem;
       overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
       border: 2px solid transparent;
+      transition: none;
     }
-
-    .video-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      border-color: #FF9900;
+    .video-thumb img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
     }
-
-    .video-card:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    .video-info {
+      padding: 0.75rem;
     }
-
-    /* Prevent logo hold zoom on mobile */
     .logo img {
-      -webkit-user-drag: none;
       user-select: none;
       pointer-events: none;
+      -webkit-user-drag: none;
+    }
+    .duration {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: rgba(0, 0, 0, 0.75);
+      color: white;
+      padding: 2px 6px;
+      font-size: 0.75rem;
+      border-radius: 4px;
     }
   </style>
 </head>
-<body class="bg-black text-white">
-  <div class="navbar flex justify-between items-center bg-black px-6 py-4">
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="Zo Hub Logo" class="h-24">
+<body class="bg-dark text-white">
+  <!-- Header -->
+  <header class="flex items-center px-6 py-4">
+    <a href="/" class="logo flex items-center mr-6">
+      <div class="text-xl font-bold px-2 py-1 bg-white text-black">Zo</div>
+      <div class="text-xl font-bold px-2 py-1 btn-orange text-black">Hub</div>
     </a>
-    <div class="search-bar flex bg-gray-800 rounded overflow-hidden">
-      <input type="text" id="searchInput" placeholder="Search videos..." class="bg-transparent px-3 py-2 outline-none text-white w-64">
-      <button onclick="searchVideos()" class="bg-orange-custom px-4 text-white"><i class="fas fa-search"></i></button>
-    </div>
-  </div>
+    <input type="text" id="searchInput" placeholder="Search..." class="flex-grow bg-gray-800 rounded px-3 py-2 text-gray-300 focus:outline-none">
+    <button onclick="searchVideos()" class="ml-2 px-4 py-2 btn-orange text-black rounded">Go</button>
+  </header>
 
-  <div class="px-4 py-4">
-    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="videoGrid">
-      <!-- JS Injected Cards -->
-    </div>
-  </div>
+  <!-- Video Grid -->
+  <main class="px-6 py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5" id="videoGrid"></div>
+  </main>
 
+  <!-- Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="modal-content relative max-w-5xl w-full">
-      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close Video">
+    <div class="relative w-full max-w-5xl">
+      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()">
         <i class="fas fa-times text-white text-2xl"></i>
       </div>
       <div class="aspect-w-16 aspect-h-9">
-        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
+        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
     </div>
   </div>
 
+  <!-- JavaScript -->
   <script>
-    let modal = null, iframe = null;
-    let allVideos = [];
+    let modal = null, iframe = null, allVideos = [];
 
     function closeModal() {
       if (iframe) iframe.src = "";
@@ -101,7 +95,6 @@
     function searchVideos() {
       const input = document.getElementById("searchInput").value.toLowerCase();
       const cards = document.querySelectorAll("#videoGrid .video-card");
-
       cards.forEach(card => {
         const title = card.querySelector(".video-title").textContent.toLowerCase();
         card.classList.toggle("hidden", !title.includes(input));
@@ -111,29 +104,23 @@
     function createVideoCard(video) {
       const card = document.createElement("div");
       card.className = "video-card";
-
       card.innerHTML = `
         <div class="video-thumb relative">
-          <img loading="lazy" src="${video.thumbnail || `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}" alt="${video.title}" class="w-full h-52 object-cover">
-          <span class="duration absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">${video.duration || ''}</span>
+          <img loading="lazy" src="${video.thumbnail || `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}" alt="${video.title}">
+          <span class="duration">${video.duration || ''}</span>
         </div>
-        <div class="video-info p-3">
-          <div class="video-title text-sm font-bold mb-2 line-clamp-2 text-white leading-tight">${video.title}</div>
-          <div class="video-stats text-xs text-gray-400 flex justify-between items-center">
-            <span><i class="fas fa-eye mr-1"></i>${video.views || 'N/A'} views</span>
-            <span><i class="fas fa-calendar mr-1"></i>${formatDate(video.uploadDate)}</span>
+        <div class="video-info">
+          <div class="video-title text-sm font-bold mb-2 line-clamp-2 text-white">${video.title}</div>
+          <div class="text-xs text-gray-400 flex justify-between">
+            <span>${video.views || 'N/A'} views</span>
+            <span>${formatDate(video.uploadDate)}</span>
           </div>
-        </div>
-      `;
+        </div>`;
 
       card.onclick = () => {
-        if (video.id) {
-          openModal(`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1&autoplay=1&vq=hd1080`);
-        } else if (video.url) {
-          openModal(video.url);
-        }
+        if (video.id) openModal(`https://www.youtube.com/embed/${video.id}?autoplay=1`);
+        else if (video.url) openModal(video.url);
       };
-
       return card;
     }
 
@@ -151,17 +138,11 @@
     document.addEventListener("DOMContentLoaded", async () => {
       modal = document.getElementById("videoModal");
       iframe = document.getElementById("modalIframe");
-
       const response = await fetch('videos.json');
       const data = await response.json();
       allVideos = data.videos;
-
       const grid = document.getElementById("videoGrid");
-      allVideos.forEach(video => {
-        grid.appendChild(createVideoCard(video));
-      });
-
-      document.getElementById("searchInput").addEventListener("input", () => searchVideos());
+      allVideos.forEach(video => grid.appendChild(createVideoCard(video)));
     });
   </script>
 </body>
