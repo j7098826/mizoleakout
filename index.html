@@ -39,138 +39,27 @@
 
   <!-- Video Grid -->
   <div class="px-4 py-6">
-    <div class="grid grid-cols-1 gap-6" id="videoGrid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="videoGrid">
       <!-- JS Injected Cards -->
     </div>
   </div>
 
   <!-- Video Modal -->
   <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="modal-content relative max-w-5xl w-full">
-      <div class="absolute top-2 right-2 cursor-pointer" onclick="closeModal()" title="Close Video">
-        <i class="fas fa-times text-white text-2xl"></i>
+    <div class="modal-content relative max-w-5xl w-full mx-4">
+      <div class="absolute -top-4 -right-4 cursor-pointer" onclick="closeModal()" title="Close Video">
+        <div class="close-btn">
+          <i class="fas fa-times text-white text-xl"></i>
+        </div>
       </div>
-      <div class="aspect-w-16 aspect-h-9">
-        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>
+      <div class="video-container">
+        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
     </div>
   </div>
 
   <!-- Main JS -->
-  <script>
-    let modal, iframe;
-    let allVideos = [];
-
-    function closeModal() {
-      if (iframe) iframe.src = "";
-      if (modal) modal.classList.add("hidden");
-      document.body.style.overflow = 'auto';
-    }
-
-    function openModal(videoUrl) {
-      if (iframe && modal) {
-        iframe.src = videoUrl;
-        modal.classList.remove("hidden");
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function searchVideos() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const cards = document.querySelectorAll("#videoGrid .video-card");
-
-      let visibleCount = 0;
-      cards.forEach(card => {
-        const title = card.querySelector(".video-title").textContent.toLowerCase();
-        const matchesSearch = title.includes(input);
-        card.classList.toggle("hidden", !matchesSearch);
-        if (matchesSearch) visibleCount++;
-      });
-
-      const noResults = document.getElementById("noResults");
-      if (visibleCount === 0 && input.length > 0) {
-        if (!noResults) {
-          const message = document.createElement("div");
-          message.id = "noResults";
-          message.className = "col-span-full text-center text-gray-400 py-8";
-          message.innerHTML = `<i class="fas fa-search text-4xl mb-4"></i><br>No videos found for "${input}"`;
-          document.getElementById("videoGrid").appendChild(message);
-        }
-      } else if (noResults) {
-        noResults.remove();
-      }
-    }
-
-    function createVideoCard(video) {
-      const card = document.createElement("div");
-      card.className = "video-card bg-gray-800 rounded overflow-hidden border-2 border-transparent";
-
-      card.innerHTML = `
-        <div class="video-thumb relative">
-          <img loading="lazy" src="${video.thumbnail || `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}" alt="${video.title}" class="w-full h-56 object-cover">
-          <span class="duration absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">${video.duration || ''}</span>
-        </div>
-        <div class="video-info p-3">
-          <div class="video-title text-base font-bold mb-2 line-clamp-2 text-white leading-tight">${video.title}</div>
-          <div class="video-stats text-xs text-gray-400 flex justify-between items-center">
-            <span><i class="fas fa-eye mr-1"></i>${video.views || 'N/A'} views</span>
-            <span><i class="fas fa-calendar mr-1"></i>${formatDate(video.uploadDate)}</span>
-          </div>
-        </div>
-      `;
-
-      card.onclick = () => {
-        if (video.id) {
-          openModal(`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1&autoplay=1&vq=hd1080`);
-        } else if (video.url) {
-          openModal(video.url);
-        }
-      };
-
-      card.addEventListener('mouseenter', () => {
-        card.classList.add("border-[#FFA500]");
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.classList.remove("border-[#FFA500]");
-      });
-
-      return card;
-    }
-
-    function formatDate(dateString) {
-      if (!dateString) return 'Recent';
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-      if (diffDays < 7) return `${diffDays}d ago`;
-      if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
-      if (diffDays < 365) return `${Math.floor(diffDays / 30)}m ago`;
-      return `${Math.floor(diffDays / 365)}y ago`;
-    }
-
-    document.addEventListener("DOMContentLoaded", async () => {
-      modal = document.getElementById("videoModal");
-      iframe = document.getElementById("modalIframe");
-
-      try {
-        const response = await fetch("videos.json");
-        const data = await response.json();
-        allVideos = data.videos;
-
-        const videoGrid = document.getElementById("videoGrid");
-        allVideos.forEach(video => {
-          videoGrid.appendChild(createVideoCard(video));
-        });
-      } catch (err) {
-        console.error("Failed to load videos.json", err);
-      }
-
-      document.getElementById("searchInput").addEventListener("input", searchVideos);
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
