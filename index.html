@@ -1,66 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zo Hub</title>
-  <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
-  
-  <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-black text-white min-h-screen">
-  <!-- Navbar -->
-  <nav class="flex flex-col sm:flex-row sm:justify-between items-center bg-black px-4 py-4 sticky top-0 z-40 shadow-lg">
-    <a href="index.html" class="logo mb-2 sm:mb-0">
-      <img src="logo.png" alt="Zo Hub Logo" class="h-16 sm:h-20 select-none pointer-events-none">
-    </a>
-    <div class="search-bar flex w-full sm:w-auto max-w-md bg-gray-800 rounded-lg overflow-hidden border border-gray-700 focus-within:border-orange-500 focus-within:ring-1 focus-within:ring-orange-500 transition-all duration-300">
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search videos..." 
-        class="bg-transparent px-4 py-2 text-white outline-none w-full placeholder-gray-400"
-      />
-      <button 
-        onclick="searchVideos()" 
-        class="search-btn bg-orange-500 hover:bg-orange-600 active:bg-orange-700 px-5 text-white transition-all duration-200 flex items-center justify-center"
-      >
-        <i class="fas fa-search text-lg"></i>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="px-4 py-6 max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="videoGrid">
-      <!-- Videos will be loaded here -->
-    </div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zo Hub - Enhanced Video Platform</title>
+    <link rel="icon" type="image/png" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiIGZpbGw9IiNGRkE1MDAiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik04IDV2MTRsMTEtN0w4IDV6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" sizes="32x32">
     
-    <div id="loadingIndicator" class="text-center py-8">
-      <i class="fas fa-spinner fa-spin text-2xl text-orange-500"></i>
-      <p class="mt-2">Loading videos...</p>
-    </div>
-  </main>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-white min-h-screen">
+    <!-- Navbar -->
+    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-6 py-4 sticky top-0 z-40 shadow-2xl">
+        <a href="#" class="logo mb-4 sm:mb-0">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="40" fill="url(#gradient)"/>
+                <path d="M30 25v30l25-15L30 25z" fill="white"/>
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF8C00"/>
+                        <stop offset="100%" style="stop-color:#FF6B00"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </a>
+        <div class="search-bar flex w-full sm:w-auto max-w-lg rounded-xl overflow-hidden transition-all duration-300">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search amazing videos..." 
+                class="bg-transparent px-6 py-3 text-white outline-none w-full placeholder-gray-400"
+                autocomplete="off"
+            />
+            <button 
+                onclick="searchVideos()" 
+                class="search-btn px-6 text-white flex items-center justify-center"
+                aria-label="Search videos"
+            >
+                <i class="fas fa-search text-lg"></i>
+            </button>
+        </div>
+    </nav>
 
-  <!-- Video Modal -->
-  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-    <div class="modal-content relative w-full max-w-6xl mx-4">
-      <button onclick="closeModal()" class="close-btn absolute -top-4 -right-4 bg-orange-500 hover:bg-orange-600">
-        <i class="fas fa-times text-white"></i>
-      </button>
-      <div class="video-container">
-        <iframe id="modalIframe" class="w-full h-full" frameborder="0" allowfullscreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-      </div>
-    </div>
-  </div>
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8" id="videoGrid">
+            <!-- Videos will be loaded here -->
+        </div>
+        
+        <div id="loadingIndicator" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-lg font-medium">Loading amazing videos...</p>
+            <p class="text-gray-400 text-sm mt-1">Please wait a moment</p>
+        </div>
+    </main>
 
-  <!-- Main JavaScript -->
-  <script src="main.js"></script>
+    <!-- Video Modal -->
+    <div id="videoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden p-4">
+        <div class="modal-content relative">
+            <button onclick="closeModal()" class="close-btn absolute -top-6 -right-6" aria-label="Close video">
+                <i class="fas fa-times text-white"></i>
+            </button>
+            <div class="video-container">
+                <iframe 
+                    id="modalIframe" 
+                    class="w-full h-full" 
+                    frameborder="0" 
+                    allowfullscreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                ></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
