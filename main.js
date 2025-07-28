@@ -23,7 +23,6 @@ function searchVideos() {
   cards.forEach(card => {
     const title = card.querySelector(".video-title").textContent.toLowerCase();
     const matchesSearch = title.includes(input);
-
     card.classList.toggle("hidden", !matchesSearch);
     if (matchesSearch) visibleCount++;
   });
@@ -95,6 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch('videos.json');
     const data = await response.json();
 
+    // ✅ Updated to match your new JSON format
     allVideos = data.videos;
 
     const videoGrid = document.getElementById("videoGrid");
