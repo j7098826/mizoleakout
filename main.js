@@ -43,7 +43,22 @@ function searchVideos() {
 
 function createVideoCard(video) {
   const card = document.createElement("div");
-  card.className = "video-card bg-gray-800 rounded overflow-hidden cursor-pointer transition-all duration-300 hover:bg-gray-700 hover:scale-105";
+
+  card.className = `
+    video-card
+    bg-gray-800
+    rounded
+    overflow-hidden
+    cursor-pointer
+    transition-all
+    duration-300
+    hover:bg-gray-700
+    hover:scale-[1.03]
+    hover:border-2
+    hover:border-orange-custom
+    border border-transparent
+    animate-fadeInZoom
+  `.trim().replace(/\s+/g, ' ');
 
   card.innerHTML = `
     <div class="video-thumb relative">
@@ -94,8 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch('videos.json');
     const data = await response.json();
 
-    allVideos = data.videos; // flat list
-
+    allVideos = data.videos;
     const videoGrid = document.getElementById("videoGrid");
     videoGrid.innerHTML = '';
 
