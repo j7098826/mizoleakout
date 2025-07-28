@@ -1,77 +1,60 @@
-/* Core layout colors */
 body {
-  background-color: #000000; /* Deep black */
-  color: #ffffff;
+  background-color: #0a0a0a;
+  color: #fff;
   font-family: Arial, sans-serif;
 }
 
-/* Custom orange brand */
+/* Orange custom */
 .text-orange-custom {
-  color: #FF7A00;
+  color: #FFA500;
 }
 .bg-orange-custom {
-  background-color: #FF7A00;
+  background-color: #FFA500;
 }
 .border-orange-custom {
-  border-color: #FF7A00;
+  border-color: #FFA500;
 }
 .hover\:text-orange-custom:hover {
-  color: #FF7A00;
+  color: #FFA500;
 }
 
-/* Logo drag prevention */
+/* Logo fix on mobile */
 .logo img {
   -webkit-user-drag: none;
   user-select: none;
   pointer-events: none;
 }
 
-/* Navbar and tab styling */
-.navbar {
-  background-color: #000000;
-}
-.nav-tabs {
-  background-color: #0a0a0a; /* Slight contrast */
-}
-
-/* Search input */
-.search-bar input {
-  background-color: #1a1a1a;
-  color: #ffffff;
-}
-.search-bar button {
-  background-color: #FF7A00;
-}
-.search-bar button:hover {
-  background-color: #e66900;
-}
-
-/* Video Card */
+/* Video Cards */
 .video-card {
-  background-color: #111111;
+  background-color: #1a1a1a;
   border-radius: 0.5rem;
   overflow: hidden;
   cursor: pointer;
   border: 2px solid transparent;
   transition: border-color 0.2s ease;
 }
+
 .video-card:hover {
-  border-color: #FF7A00;
+  border-color: #FFA500;
 }
 
-/* Thumbnail */
+/* Thumbnail & Info */
 .video-thumb {
   position: relative;
 }
+
 .video-thumb img {
   width: 100%;
-  height: 170px;
+  height: 180px;
   object-fit: cover;
+  border-bottom: 1px solid #333;
 }
+
 .duration {
   position: absolute;
-  bottom: 6px;
-  right: 6px;
+  bottom: 8px;
+  right: 8px;
   background: rgba(0, 0, 0, 0.75);
   color: #fff;
   font-size: 0.75rem;
@@ -79,28 +62,28 @@ body {
   border-radius: 4px;
 }
 
-/* Title + stats */
 .video-title {
   font-weight: bold;
-  color: #ffffff;
+  color: #fff;
   line-height: 1.2;
-  margin-bottom: 0.5rem;
 }
+
 .video-stats {
-  color: #999999;
   font-size: 0.8rem;
+  color: #bbb;
 }
 
 /* Modal */
 #videoModal {
   backdrop-filter: blur(3px);
-  background-color: rgba(0, 0, 0, 0.9);
 }
+
 .modal-content {
   width: 90vw;
   max-width: 1200px;
   margin: 0 auto;
 }
+
 .video-container {
   width: 100%;
   aspect-ratio: 16/9;
@@ -109,12 +92,12 @@ body {
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
 }
 
-/* Close button */
+/* Close Button */
 .close-btn {
   position: absolute;
   top: -15px;
   right: -15px;
-  background: rgba(255, 122, 0, 0.95);
+  background: #FFA500;
   border-radius: 50%;
   width: 45px;
   height: 45px;
@@ -122,17 +105,16 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: 3px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease;
-}
-.close-btn:hover {
-  background: rgba(255, 90, 0, 1);
-  transform: scale(1.15);
-  border-color: rgba(255, 255, 255, 0.8);
+  z-index: 60;
+  border: 3px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Responsive */
+.close-btn:hover {
+  background: #ff7f00;
+  transform: scale(1.1);
+}
+
+/* Responsive Tweaks */
 @media (max-width: 768px) {
   .modal-content {
     width: 95vw;
