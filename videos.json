@@ -1,164 +1,49 @@
 {
-  "videos": [
+  "name": "Zo Hub - Video Platform",
+  "short_name": "Zo Hub",
+  "description": "Watch amazing videos on your mobile device",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#FF8C00",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["entertainment", "video", "media"],
+  "lang": "en",
+  "icons": [
     {
-      "id": "dQw4w9WgXcQ",
-      "title": "Never Gonna Give You Up",
-      "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
-      "duration": "3:33",
-      "views": "1.2B",
-      "uploadDate": "2009-10-25"
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "url": "https://your-worker-domain.com/proxy/videos/music1.mp4",
-      "title": "Chill Beats Mix",
-      "thumbnail": "https://via.placeholder.com/320x180/4F46E5/FFFFFF?text=Chill+Beats",
-      "duration": "1:00:00",
-      "views": "540K",
-      "uploadDate": "2024-01-15"
-    },
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
     {
-      "id": "5NV6Rdv1a3I",
-      "title": "Epic Gameplay Highlights",
-      "thumbnail": "https://img.youtube.com/vi/5NV6Rdv1a3I/mqdefault.jpg",
-      "duration": "10:12",
-      "views": "750K",
-      "uploadDate": "2023-12-20"
-    },
+      "name": "Search Videos",
+      "short_name": "Search",
+      "description": "Search for videos",
+      "url": "/?search=true",
+      "icons": [
+        {
+          "src": "logo.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
     {
-      "url": "https://your-worker-domain.com/proxy/videos/tutorial1.mp4",
-      "title": "Learn JavaScript Basics",
-      "thumbnail": "https://via.placeholder.com/320x180/10B981/FFFFFF?text=JS+Tutorial",
-      "duration": "15:45",
-      "views": "1.1M",
-      "uploadDate": "2023-05-10"
-    },
-    {
-      "id": "3tmd-ClpJxA",
-      "title": "Ultimate Fitness Motivation",
-      "thumbnail": "https://img.youtube.com/vi/3tmd-ClpJxA/mqdefault.jpg",
-      "duration": "5:04",
-      "views": "900K",
-      "uploadDate": "2023-03-11"
-    },
-    {
-      "id": "L_jWHffIx5E",
-      "title": "Classic Rock Anthems",
-      "thumbnail": "https://img.youtube.com/vi/L_jWHffIx5E/mqdefault.jpg",
-      "duration": "45:00",
-      "views": "2.3M",
-      "uploadDate": "2020-06-01"
-    },
-    {
-      "url": "https://your-worker-domain.com/proxy/videos/documentary1.mp4",
-      "title": "Secrets of the Ocean",
-      "thumbnail": "https://via.placeholder.com/320x180/0EA5E9/FFFFFF?text=Ocean+Doc",
-      "duration": "22:10",
-      "views": "1.5M",
-      "uploadDate": "2023-08-07"
-    },
-    {
-      "id": "eVTXPUF4Oz4",
-      "title": "Top 10 Movie Trailers",
-      "thumbnail": "https://img.youtube.com/vi/eVTXPUF4Oz4/mqdefault.jpg",
-      "duration": "9:05",
-      "views": "3.2M",
-      "uploadDate": "2022-09-10"
-    },
-    {
-      "id": "kXYiU_JCYtU",
-      "title": "Best of Linkin Park",
-      "thumbnail": "https://img.youtube.com/vi/kXYiU_JCYtU/mqdefault.jpg",
-      "duration": "36:10",
-      "views": "8.1M",
-      "uploadDate": "2021-01-12"
-    },
-    {
-      "id": "YqeW9_5kURI",
-      "title": "Summer Party Vibes 2024",
-      "thumbnail": "https://img.youtube.com/vi/YqeW9_5kURI/mqdefault.jpg",
-      "duration": "48:30",
-      "views": "620K",
-      "uploadDate": "2024-05-30"
-    },
-    {
-      "url": "https://your-worker-domain.com/proxy/videos/scifi.mp4",
-      "title": "Sci-Fi Short Film",
-      "thumbnail": "https://via.placeholder.com/320x180/8B5CF6/FFFFFF?text=Sci-Fi+Film",
-      "duration": "12:20",
-      "views": "1.8M",
-      "uploadDate": "2022-02-15"
-    },
-    {
-      "id": "hT_nvWreIhg",
-      "title": "Motivational Talk: Believe in Yourself",
-      "thumbnail": "https://img.youtube.com/vi/hT_nvWreIhg/mqdefault.jpg",
-      "duration": "6:45",
-      "views": "2.9M",
-      "uploadDate": "2023-07-01"
-    },
-    {
-      "id": "RgKAFK5djSk",
-      "title": "Wiz Khalifa - See You Again ft. Charlie Puth",
-      "thumbnail": "https://img.youtube.com/vi/RgKAFK5djSk/mqdefault.jpg",
-      "duration": "4:12",
-      "views": "5.1B",
-      "uploadDate": "2015-04-06"
-    },
-    {
-      "id": "ZbZSe6N_BXs",
-      "title": "Happy - Pharrell Williams",
-      "thumbnail": "https://img.youtube.com/vi/ZbZSe6N_BXs/mqdefault.jpg",
-      "duration": "3:53",
-      "views": "1.1B",
-      "uploadDate": "2013-11-21"
-    },
-    {
-      "id": "fLexgOxsZu0",
-      "title": "Bruno Mars - The Lazy Song",
-      "thumbnail": "https://img.youtube.com/vi/fLexgOxsZu0/mqdefault.jpg",
-      "duration": "3:29",
-      "views": "2.6B",
-      "uploadDate": "2011-04-15"
-    },
-    {
-      "url": "https://your-worker-domain.com/proxy/videos/dev-talk.mp4",
-      "title": "Advanced Python: Generators Deep Dive",
-      "thumbnail": "https://via.placeholder.com/320x180/F59E0B/FFFFFF?text=Python+Tutorial",
-      "duration": "19:50",
-      "views": "220K",
-      "uploadDate": "2024-02-18"
-    },
-    {
-      "id": "60ItHLz5WEA",
-      "title": "Alan Walker - Faded",
-      "thumbnail": "https://img.youtube.com/vi/60ItHLz5WEA/mqdefault.jpg",
-      "duration": "3:33",
-      "views": "3.5B",
-      "uploadDate": "2015-12-03"
-    },
-    {
-      "id": "gCYcHz2k5x0",
-      "title": "Clean Bandit - Rockabye ft. Sean Paul & Anne-Marie",
-      "thumbnail": "https://img.youtube.com/vi/gCYcHz2k5x0/mqdefault.jpg",
-      "duration": "4:13",
-      "views": "2.7B",
-      "uploadDate": "2016-10-21"
-    },
-    {
-      "id": "OPf0YbXqDm0",
-      "title": "Mark Ronson - Uptown Funk ft. Bruno Mars",
-      "thumbnail": "https://img.youtube.com/vi/OPf0YbXqDm0/mqdefault.jpg",
-      "duration": "4:31",
-      "views": "4.9B",
-      "uploadDate": "2014-11-19"
-    },
-    {
-      "url": "https://your-worker-domain.com/proxy/videos/random-clip.mp4",
-      "title": "Funny Compilation 2024",
-      "thumbnail": "https://via.placeholder.com/320x180/EF4444/FFFFFF?text=Funny+Clips",
-      "duration": "7:00",
-      "views": "320K",
-      "uploadDate": "2024-06-18"
+      "src": "screenshot-mobile.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ]
 }
