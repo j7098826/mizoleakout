@@ -68,7 +68,7 @@ class MobileVideoPlayer {
 
     refreshContent() {
         this.loadingIndicator.style.display = 'block';
-        this.loadingIndicator.innerHTML = '<div class="loading-spinner mx-auto mb-4"></div><p class="text-lg font-medium">Refreshing videos...</p>';
+        this.loadingIndicator.innerHTML = '<div class="loading-spinner"></div><p>Refreshing videos...</p>';
         setTimeout(() => this.loadVideos(), 1000);
     }
 
@@ -117,7 +117,7 @@ class MobileVideoPlayer {
                 e.preventDefault();
                 const action = btn.textContent.trim().toLowerCase();
                 switch(action) {
-                    case 'like': btn.classList.toggle('bg-red-500'); break;
+                    case 'like': btn.classList.toggle('liked'); break;
                     case 'share': this.shareVideo(); break;
                     case 'download': this.downloadVideo(); break;
                 }
