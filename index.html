@@ -2,41 +2,222 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zo Hub - Video Platform</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Zo Hub - Mobile Video Platform</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FF8C00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Zo Hub">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="logo.png">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Mobile optimizations -->
+    <style>
+        /* Critical CSS for above-the-fold content */
+        body { 
+            background: #000; 
+            color: white; 
+            margin: 0; 
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        nav { 
+            background: rgba(0,0,0,0.98); 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            z-index: 50; 
+        }
+        main { 
+            padding-top: 120px; 
+        }
+        .loading-spinner { 
+            border: 3px solid rgba(255,140,0,0.3); 
+            border-top-color: #FF8C00; 
+            border-radius: 50%; 
+            width: 32px; 
+            height: 32px; 
+            animation: spin 1s linear infinite; 
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
-<body>
-    <nav>
-        <div class="logo"><img src="logo.png" alt="Zo Hub Logo"></div>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search videos...">
-            <button class="search-btn"><i class="fas fa-search"></i></button>
+<body class="text-white min-h-screen">
+    <!-- Mobile Navigation -->
+    <nav class="flex flex-col sm:flex-row sm:justify-between items-center px-4 py-3 fixed top-0 left-0 right-0 z-40 shadow-2xl">
+        <a href="#" class="logo mb-2 sm:mb-0" aria-label="Zo Hub Home">
+            <img src="logo.png" alt="Zo Hub Logo" class="h-12 sm:h-16 select-none pointer-events-none" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <svg width="60" height="60" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+                <circle cx="40" cy="40" r="40" fill="url(#gradient)"/>
+                <path d="M30 25v30l25-15L30 25z" fill="white"/>
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF8C00"/>
+                        <stop offset="100%" style="stop-color:#FF6B00"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </a>
+        
+        <div class="search-bar flex w-full sm:w-96 max-w-lg rounded-xl overflow-hidden transition-all duration-300">
+            <input 
+                type="search" 
+                id="searchInput" 
+                placeholder="Search videos..." 
+                class="bg-transparent px-4 py-3 text-white outline-none w-full placeholder-gray-400"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                inputmode="search"
+                enterkeyhint="search"
+            />
+            <button 
+                onclick="searchVideos()" 
+                class="search-btn px-4 text-white flex items-center justify-center"
+                aria-label="Search videos"
+                type="button"
+            >
+                <i class="fas fa-search text-lg"></i>
+            </button>
         </div>
     </nav>
-    <main>
-        <div id="videoGrid" class="video-grid"></div>
-        <div id="loadingIndicator">Loading videos...</div>
+
+    <!-- Main Content -->
+    <main class="px-3 py-6">
+        <!-- Video Grid -->
+        <div class="video-grid" id="videoGrid">
+            <!-- Videos will be loaded here -->
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-lg font-medium">Loading videos...</p>
+            <p class="text-gray-400 text-sm mt-1">Please wait</p>
+        </div>
     </main>
-    <div id="videoModal" class="hidden">
-        <div class="modal-content">
+
+    <!-- Enhanced Video Modal -->
+    <div id="videoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden" style="display: none;">
+        <div class="modal-content relative w-full h-full flex flex-col justify-center p-4">
+            <!-- Enhanced Close Button -->
+            <button 
+                onclick="closeModal()" 
+                class="close-btn absolute top-4 right-4 z-50" 
+                aria-label="Close video"
+                type="button"
+            >
+                <i class="fas fa-times text-white"></i>
+            </button>
+            
+            <!-- Video Info Header -->
+            <div class="video-info-header absolute top-4 left-4 z-50 bg-black bg-opacity-75 rounded-lg p-3 max-w-sm">
+                <h3 id="modalVideoTitle" class="text-white font-semibold text-sm mb-1"></h3>
+                <p id="modalVideoViews" class="text-gray-300 text-xs"></p>
+            </div>
+            
+            <!-- Enhanced Video Container -->
             <div class="video-container">
-                <iframe id="modalIframe" allow="autoplay" frameborder="0" allowfullscreen></iframe>
+                <div class="video-wrapper relative">
+                    <iframe 
+                        id="modalIframe" 
+                        class="w-full h-full rounded-lg" 
+                        frameborder="0" 
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    ></iframe>
+                    
+                    <!-- Video Controls Overlay -->
+                    <div class="video-controls absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 transition-opacity duration-300">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <button class="play-pause-btn text-white hover:text-orange-400 transition-colors">
+                                    <i class="fas fa-play text-lg"></i>
+                                </button>
+                                <div class="progress-bar bg-gray-600 rounded-full h-1 flex-1 mx-4">
+                                    <div class="progress-fill bg-orange-400 h-full rounded-full" style="width: 0%"></div>
+                                </div>
+                                <span class="time-display text-white text-sm">0:00 / 0:00</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="volume-btn text-white hover:text-orange-400 transition-colors">
+                                    <i class="fas fa-volume-up text-lg"></i>
+                                </button>
+                                <button class="fullscreen-btn text-white hover:text-orange-400 transition-colors">
+                                    <i class="fas fa-expand text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="video-info-header">
-                <h3 id="modalVideoTitle"></h3>
-                <span id="modalVideoViews"></span>
+            
+            <!-- Video Actions -->
+            <div class="video-actions absolute bottom-4 left-4 right-4 flex justify-center space-x-4">
+                <button class="action-btn bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-heart mr-2"></i>Like
+                </button>
+                <button class="action-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-share mr-2"></i>Share
+                </button>
+                <button class="action-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-download mr-2"></i>Download
+                </button>
             </div>
-            <div class="video-controls">
-                <button class="action-btn"><i class="far fa-thumbs-up"></i> Like</button>
-                <button class="action-btn"><i class="fas fa-share"></i> Share</button>
-                <button class="action-btn"><i class="fas fa-download"></i> Download</button>
-            </div>
-            <button class="close-btn"><i class="fas fa-times"></i></button>
         </div>
     </div>
+
+    <!-- Mobile Scripts -->
+    <script>
+        // Prevent zoom on iOS double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Optimize scroll performance
+        let ticking = false;
+        function updateScrollPosition() {
+            // Add scroll-based optimizations here
+            ticking = false;
+        }
+        
+        document.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollPosition);
+                ticking = true;
+            }
+        }, { passive: true });
+        
+        // Add loading class for better UX
+        document.documentElement.classList.add('loading');
+        window.addEventListener('load', () => {
+            document.documentElement.classList.remove('loading');
+        });
+    </script>
+    
+    <!-- Main JavaScript -->
     <script src="main.js"></script>
 </body>
 </html>
