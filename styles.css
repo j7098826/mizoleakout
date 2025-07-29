@@ -1,6 +1,9 @@
-/* CRITICAL Z-INDEX FIX: Reset all positioning */
+/* Reset all positioning */
 * {
     position: relative;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -9,54 +12,34 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    /* Prevent zooming on input focus */
     -webkit-text-size-adjust: 100%;
-    /* Smooth scrolling on iOS */
     -webkit-overflow-scrolling: touch;
-    /* Prevent horizontal scroll */
     overflow-x: hidden;
 }
 
-/* CRITICAL FIX: Maximum z-index navigation with new stacking context */
 nav {
-    background: rgba(0, 0, 0, 0.98) !important;
+    background: rgba(0, 0, 0, 0.98);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 140, 0, 0.2);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
-    /* CRITICAL: Maximum z-index and proper positioning */
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    z-index: 9999 !important; /* MAXIMUM Z-INDEX */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9999;
     padding: 12px 16px;
-    max-width: none !important;
-    margin: 0 !important;
-    box-sizing: border-box;
-    /* Force hardware acceleration and new stacking context */
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    will-change: transform;
-    isolation: isolate;
     min-height: 80px;
 }
 
-/* Mobile logo optimization */
-.logo {
-    margin-bottom: 8px;
-    z-index: inherit;
-}
-
-.logo svg {
+.logo-img {
     width: 60px;
     height: 60px;
     filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.3));
     transition: transform 0.2s ease;
 }
 
-/* Mobile-optimized search bar */
 .search-bar {
     background: rgba(17, 17, 17, 0.95);
     -webkit-backdrop-filter: blur(10px);
@@ -68,13 +51,11 @@ nav {
     max-width: 600px;
     display: flex;
     align-items: center;
-    /* Prevent zoom on iOS */
     transform: translate3d(0, 0, 0);
-    z-index: inherit;
 }
 
 .search-bar input {
-    font-size: 16px; /* Prevent zoom on iOS */
+    font-size: 16px;
     padding: 14px 16px;
     background: transparent;
     color: white;
@@ -100,8 +81,6 @@ nav {
     min-width: 50px;
     height: 50px;
     transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
     border-radius: 0 10px 10px 0;
     display: flex;
     align-items: center;
@@ -115,24 +94,17 @@ nav {
     background: linear-gradient(45deg, #FF6B00, #E55A00);
 }
 
-/* CRITICAL FIX: Main content with proper z-index and spacing */
 main {
-    /* CRITICAL: Much higher padding to clear fixed nav */
-    padding: 160px 12px 20px 12px !important;
+    padding: 160px 12px 20px 12px;
     min-height: 100vh;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    /* CRITICAL: Lower z-index than nav */
-    z-index: 1 !important;
-    /* CRITICAL: Create new stacking context */
-    isolation: isolate !important;
-    /* Force hardware acceleration */
+    z-index: 1;
+    isolation: isolate;
     transform: translateZ(0);
-    -webkit-transform: translateZ(0);
 }
 
-/* CRITICAL FIX: Video grid with proper stacking */
 .video-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -140,51 +112,10 @@ main {
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    /* CRITICAL: Below nav but above background */
-    z-index: 1 !important;
-    /* CRITICAL: Ensure it stays in its own layer */
-    isolation: isolate !important;
+    z-index: 1;
+    isolation: isolate;
 }
 
-/* Responsive breakpoints for mobile-first */
-@media (min-width: 480px) {
-    .video-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-    }
-    main {
-        padding: 160px 16px 20px 16px !important;
-    }
-}
-
-@media (min-width: 768px) {
-    .video-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-    }
-    nav {
-        min-height: 90px;
-    }
-    main {
-        padding: 140px 16px 20px 16px !important;
-    }
-}
-
-@media (min-width: 1024px) {
-    .video-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
-    }
-}
-
-@media (min-width: 1280px) {
-    .video-grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 20px;
-    }
-}
-
-/* CRITICAL FIX: Video cards with forced low z-index */
 .video-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     background-color: #111111;
@@ -193,43 +124,30 @@ main {
     cursor: pointer;
     border: 2px solid transparent;
     position: relative;
-    /* CRITICAL: Force low z-index, never above nav */
-    z-index: 1 !important;
-    /* Optimize for touch */
+    z-index: 1;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    /* Prevent text selection on mobile */
     -webkit-user-select: none;
     user-select: none;
-    /* Optimize performance */
     will-change: transform;
     min-height: 280px;
-    /* Prevent z-index escalation */
-    max-width: 100%;
-    /* Force hardware acceleration */
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
 }
 
-/* Mobile touch feedback */
 .video-card:active {
     transform: scale(0.98);
     transition: transform 0.1s ease;
 }
 
-/* CRITICAL: Hover state still below nav */
 .video-card:hover {
     transform: translateY(-6px) scale(1.02);
     box-shadow: 0 12px 35px rgba(255, 140, 0, 0.3);
     border-color: #FF8C00;
-    /* CRITICAL: Even when hovered, stay below nav */
-    z-index: 2 !important;
+    z-index: 2;
 }
 
-/* Mobile-optimized thumbnails */
 .video-thumb {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
     overflow: hidden;
     border-radius: 8px 8px 0 0;
     z-index: 1;
@@ -243,7 +161,6 @@ main {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
-    /* Optimize image rendering on mobile */
     -webkit-image-rendering: -webkit-optimize-contrast;
     image-rendering: -webkit-optimize-contrast;
     z-index: 1;
@@ -253,7 +170,6 @@ main {
     transform: scale(1.05);
 }
 
-/* Mobile-optimized duration badge */
 .duration {
     position: absolute;
     bottom: 8px;
@@ -270,7 +186,6 @@ main {
     z-index: 3;
 }
 
-/* Mobile-optimized video info */
 .video-info {
     padding: 12px 14px 16px 14px;
     position: relative;
@@ -282,13 +197,13 @@ main {
     margin-bottom: 8px;
     font-weight: 600;
     font-size: 14px;
-    /* Ensure text doesn't break badly on mobile */
     word-break: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: white;
 }
 
 .video-stats {
@@ -306,87 +221,29 @@ main {
     gap: 4px;
 }
 
-/* CRITICAL FIX: Modal with maximum possible z-index */
 #videoModal {
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     background: rgba(0, 0, 0, 0.98);
-    /* CRITICAL: Maximum z-index for modal */
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    z-index: 99999 !important; /* MAXIMUM POSSIBLE Z-INDEX */
+    z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Force new stacking context */
-    isolation: isolate !important;
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-}
-
-/* Video Info Header */
-.video-info-header {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Video Wrapper */
-.video-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.video-wrapper:hover .video-controls {
-    opacity: 1;
-}
-
-/* Video Controls */
-.video-controls {
-    pointer-events: none;
-}
-
-.video-controls > div {
-    pointer-events: auto;
-}
-
-/* Progress Bar */
-.progress-bar {
-    cursor: pointer;
-    transition: height 0.2s ease;
-}
-
-.progress-bar:hover {
-    height: 4px;
-}
-
-.progress-fill {
-    transition: width 0.1s ease;
-}
-
-/* Action Buttons */
-.action-btn {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.action-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    isolation: isolate;
+    transform: translateZ(0);
 }
 
 .modal-content {
-    width: 100vw;
-    height: 100vh;
+    width: 90vw;
+    height: 80vh;
     max-width: 1200px;
     max-height: 80vh;
     animation: modalSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -394,9 +251,6 @@ main {
     flex-direction: column;
     justify-content: center;
     padding: 20px;
-    /* Desktop modal sizing */
-    width: 90vw;
-    height: 80vh;
     border-radius: 16px;
     overflow: hidden;
     position: relative;
@@ -422,11 +276,47 @@ main {
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
     border: 2px solid rgba(255, 140, 0, 0.3);
-    /* Desktop video container */
     min-height: 400px;
 }
 
-/* CRITICAL FIX: Close button with proper z-index */
+.video-info-header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    color: white;
+}
+
+.video-controls {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.video-controls:hover {
+    opacity: 1;
+}
+
+.action-btn {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .close-btn {
     width: 44px;
     height: 44px;
@@ -441,8 +331,7 @@ main {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 1; /* Inherit from modal */
-    /* Optimize for touch */
+    z-index: 1;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     cursor: pointer;
@@ -459,7 +348,6 @@ main {
     border-color: rgba(255, 255, 255, 0.8);
 }
 
-/* Mobile-optimized loading */
 .loading-spinner {
     display: inline-block;
     width: 32px;
@@ -468,340 +356,58 @@ main {
     border-radius: 50%;
     border-top-color: #FF8C00;
     animation: spin 1s ease-in-out infinite;
+    margin: 20px auto;
 }
 
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
 
-/* Pull to refresh styles */
-.pull-to-refresh {
-    position: fixed;
-    top: -80px;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, rgba(255, 140, 0, 0.1), transparent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 60; /* Below nav */
-    transition: transform 0.3s ease;
-    color: #FF8C00;
-}
-
-.pull-indicator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.pull-icon {
-    font-size: 20px;
-    transition: transform 0.3s ease;
-}
-
-.pull-text {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* Install banner styles */
-.install-banner {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    background: linear-gradient(45deg, #FF8C00, #FF6B00);
-    border-radius: 12px;
-    padding: 16px;
-    color: white;
-    z-index: 1500; /* Below modal, below nav */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(100px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.install-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.install-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    padding: 8px 16px;
-    color: white;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-left: auto;
-}
-
-.install-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-}
-
-.install-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 50%;
-    transition: background 0.2s ease;
-}
-
-.install-close:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* No results message styles */
 #noResults {
     grid-column: 1 / -1;
     text-align: center;
     padding: 40px 20px;
-    display: block;
-    z-index: inherit;
+    color: #9CA3AF;
+    z-index: 1;
 }
 
-/* Desktop optimizations */
-.is-desktop .video-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Responsive breakpoints */
+@media (min-width: 480px) {
+    .video-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    main { padding: 160px 16px 20px 16px; }
 }
 
-.is-desktop .video-card:hover {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4);
-    z-index: 2 !important; /* Still below nav */
+@media (min-width: 768px) {
+    .video-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    nav { min-height: 90px; }
+    main { padding: 140px 16px 20px 16px; }
 }
 
-.is-desktop .search-bar {
-    max-width: 500px;
-    margin: 0 auto;
+@media (min-width: 1024px) {
+    .video-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
 }
 
-.is-desktop .modal-content {
-    width: 80vw;
-    height: 70vh;
-    max-width: 1000px;
+@media (min-width: 1280px) {
+    .video-grid { grid-template-columns: repeat(5, 1fr); gap: 20px; }
 }
 
-.is-desktop .video-container {
-    min-height: 500px;
-}
-
-/* Mobile-specific optimizations */
 @media (max-width: 768px) {
-    /* Larger touch targets */
-    .search-btn {
-        min-width: 54px;
-    }
-    
-    /* Better spacing on small screens */
-    .video-grid {
-        gap: 12px;
-    }
-    
-    /* Optimize modal for portrait mobile */
-    .video-container {
-        height: 40vh;
-        max-height: 300px;
-    }
-    
-    .modal-content {
-        padding: 16px;
-    }
-    
-    /* CRITICAL: Optimize navbar for small screens */
-    nav {
-        padding: 10px 12px;
-        min-height: 100px;
-    }
-    
-    .logo svg {
-        width: 50px;
-        height: 50px;
-    }
-    
-    /* CRITICAL: Adjust main padding for smaller nav */
-    main {
-        padding-top: 120px !important;
-    }
+    nav { padding: 10px 12px; min-height: 100px; }
+    .logo-img { width: 50px; height: 50px; }
+    main { padding-top: 120px; }
+    .video-container { height: 40vh; max-height: 300px; }
+    .modal-content { padding: 16px; }
 }
 
-/* Extra small mobile devices */
 @media (max-width: 480px) {
-    main {
-        padding: 110px 8px 16px 8px !important;
-    }
-    
-    .video-grid {
-        gap: 10px;
-    }
-    
-    .video-title {
-        font-size: 13px;
-    }
-    
-    .video-stats {
-        font-size: 11px;
-    }
-    
-    .search-bar input {
-        padding: 12px 14px;
-        font-size: 16px;
-    }
-    
-    .install-banner {
-        left: 12px;
-        right: 12px;
-        bottom: 16px;
-    }
+    main { padding: 110px 8px 16px 8px; }
+    .video-grid { gap: 10px; }
+    .video-title { font-size: 13px; }
+    .video-stats { font-size: 11px; }
+    .search-bar input { padding: 12px 14px; }
 }
 
-/* Landscape mobile optimization */
 @media (max-height: 500px) and (orientation: landscape) {
-    .video-container {
-        height: 70vh;
-        max-height: none;
-    }
-    
-    .modal-content {
-        justify-content: flex-start;
-        padding-top: 40px;
-    }
-}
-
-/* Prevent zoom on inputs (iOS) */
-input[type="text"],
-input[type="search"] {
-    font-size: 16px !important;
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Selection styling */
-::selection {
-    background: rgba(255, 140, 0, 0.3);
-    color: white;
-}
-
-/* Webkit selection styling */
-::-webkit-selection {
-    background: rgba(255, 140, 0, 0.3);
-    color: white;
-}
-
-/* Focus styles for accessibility */
-.search-btn:focus,
-.close-btn:focus,
-.video-card:focus {
-    outline: 3px solid #FF8C00;
-    outline-offset: 2px;
-}
-
-/* iOS Safari specific fixes */
-@supports (-webkit-appearance: none) {
-    .search-bar input {
-        -webkit-appearance: none;
-        appearance: none;
-        border-radius: 0;
-    }
-}
-
-/* PWA safe area support (iPhone X+) */
-@supports (padding: max(0px)) {
-    main {
-        padding-left: max(12px, env(safe-area-inset-left)) !important;
-        padding-right: max(12px, env(safe-area-inset-right)) !important;
-    }
-    
-    nav {
-        padding-left: max(16px, env(safe-area-inset-left));
-        padding-right: max(16px, env(safe-area-inset-right));
-        padding-top: max(12px, env(safe-area-inset-top));
-    }
-    
-    .install-banner {
-        bottom: max(20px, env(safe-area-inset-bottom));
-    }
-}
-
-/* Fallback for browsers that don't support env() */
-@supports not (padding: max(0px)) {
-    main {
-        padding-left: 12px !important;
-        padding-right: 12px !important;
-    }
-    
-    nav {
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-top: 12px;
-    }
-    
-    .install-banner {
-        bottom: 20px;
-    }
-}
-
-/* CRITICAL: Emergency z-index overrides */
-nav,
-nav * {
-    z-index: 9999 !important;
-}
-
-#videoModal,
-#videoModal * {
-    z-index: 99999 !important;
-}
-
-.video-card,
-.video-card *,
-.video-grid,
-.video-grid *,
-main,
-main * {
-    z-index: 1 !important;
-}
-
-.video-card:hover,
-.video-card:hover * {
-    z-index: 2 !important;
-}
-
-/* Force stacking context isolation */
-nav {
-    isolation: isolate !important;
-}
-
-main {
-    isolation: isolate !important;
-}
-
-#videoModal {
-    isolation: isolate !important;
+    .video-container { height: 70vh; max-height: none; }
+    .modal-content { justify-content: flex-start; padding-top: 40px; }
 }
